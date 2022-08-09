@@ -13,28 +13,28 @@ namespace MudBlazor
 {
     // note: the MudTable code is split. Everything depending on the type parameter T of MudTable<T> is here in MudTable<T>
 
-    public partial class MudTable<T> : MudTableBase
+    public partial class MudTable<TTableRow> : MudTableBase
     {
         /// <summary>
         /// Defines how a table row looks like. Use MudTd to define the table cells and their content.
         /// </summary>
         [Parameter]
         [Category(CategoryTypes.Table.Rows)]
-        public RenderFragment<T> RowTemplate { get; set; }
+        public RenderFragment<TTableRow> RowTemplate { get; set; }
 
         /// <summary>
         /// Row Child content of the component.
         /// </summary>
         [Parameter]
         [Category(CategoryTypes.Table.Rows)]
-        public RenderFragment<T> ChildRowContent { get; set; }
+        public RenderFragment<TTableRow> ChildRowContent { get; set; }
 
         /// <summary>
         /// Defines how a table row looks like in edit mode (for selected row). Use MudTd to define the table cells and their content.
         /// </summary>
         [Parameter]
         [Category(CategoryTypes.Table.Editing)]
-        public RenderFragment<T> RowEditingTemplate { get; set; }
+        public RenderFragment<TTableRow> RowEditingTemplate { get; set; }
 
         #region Code for column based approach
         /// <summary>
@@ -42,7 +42,7 @@ namespace MudBlazor
         /// </summary>
         [Parameter]
         [Category(CategoryTypes.Table.Behavior)]
-        public RenderFragment<T> Columns { get; set; }
+        public RenderFragment<TTableRow> Columns { get; set; }
         /// <summary>
         /// Comma separated list of columns to show if there is no templates defined
         /// </summary>
@@ -53,14 +53,14 @@ namespace MudBlazor
         // Workaround because "where T : new()" didn't work with Blazor components
         // T must have a default constructor, otherwise we cannot show headers when Items collection
         // is empty
-        protected T Def
+        protected TTableRow Def
         {
             get
             {
-                T t1 = default;
+                TTableRow t1 = default;
                 if (t1 == null)
                 {
-                    return Activator.CreateInstance<T>();
+                    return Activator.CreateInstance<TTableRow>();
                 }
                 else
                 {
@@ -109,7 +109,7 @@ namespace MudBlazor
             }
         }
 
-        private static void BuildMudColumnTemplateItem(T context, RenderTreeBuilder builder, PropertyInfo propinfo)
+        private static void BuildMudColumnTemplateItem(TTableRow context, RenderTreeBuilder builder, PropertyInfo propinfo)
         {
             if (propinfo.PropertyType.IsPrimitive || propinfo.PropertyType == typeof(string))
             {
@@ -149,7 +149,7 @@ namespace MudBlazor
         /// 
         [Parameter]
         [Category(CategoryTypes.Table.Data)]
-        public IEnumerable<T> Items
+        public IEnumerable<TTableRow> Items
         {
             get => _items;
             set
@@ -167,22 +167,22 @@ namespace MudBlazor
         /// </summary>
         [Parameter]
         [Category(CategoryTypes.Table.Filtering)]
-        public Func<T, bool> Filter { get; set; } = null;
+        public Func<TTableRow, bool> Filter { get; set; } = null;
 
         /// <summary>
         /// Button click event.
         /// </summary>
-        [Parameter] public EventCallback<TableRowClickEventArgs<T>> OnRowClick { get; set; }
+        [Parameter] public EventCallback<TableRowClickEventArgs<TTableRow>> OnRowClick { get; set; }
 
         internal override void FireRowClickEvent(MouseEventArgs args, MudTr row, object o)
         {
-            var item = default(T);
+            var item = default(TTableRow);
             try
             {
-                item = (T)o;
+                item = (TTableRow)o;
             }
             catch (Exception) { /*ignore*/}
-            OnRowClick.InvokeAsync(new TableRowClickEventArgs<T>()
+            OnRowClick.InvokeAsync(new TableRowClickEventArgs<TTableRow>()
             {
                 MouseEventArgs = args,
                 Row = row,
@@ -195,52 +195,52 @@ namespace MudBlazor
         /// </summary>
         [Parameter]
         [Category(CategoryTypes.Table.Rows)]
-        public Func<T, int, string> RowClassFunc { get; set; }
+        public Func<TTableRow, int, string> RowClassFunc { get; set; }
 
         /// <summary>
         /// Returns the style that will get joined with RowStyle. Takes the current item and row index.
         /// </summary>
         [Parameter]
         [Category(CategoryTypes.Table.Rows)]
-        public Func<T, int, string> RowStyleFunc { get; set; }
+        public Func<TTableRow, int, string> RowStyleFunc { get; set; }
 
         /// <summary>
         /// Returns the item which was last clicked on in single selection mode (that is, if MultiSelection is false)
         /// </summary>
         [Parameter]
         [Category(CategoryTypes.Table.Selecting)]
-        public T SelectedItem
+        public TTableRow SelectedItem
         {
             get => _selectedItem;
             set
             {
-                if (EqualityComparer<T>.Default.Equals(SelectedItem, value))
+                if (EqualityComparer<TTableRow>.Default.Equals(SelectedItem, value))
                     return;
                 _selectedItem = value;
                 SelectedItemChanged.InvokeAsync(value);
             }
         }
-        private T _selectedItem;
+        private TTableRow _selectedItem;
 
         /// <summary>
         /// Callback is called when a row has been clicked and returns the selected item.
         /// </summary>
-        [Parameter] public EventCallback<T> SelectedItemChanged { get; set; }
+        [Parameter] public EventCallback<TTableRow> SelectedItemChanged { get; set; }
 
         /// <summary>
         /// If MultiSelection is true, this returns the currently selected items. You can bind this property and the initial content of the HashSet you bind it to will cause these rows to be selected initially.
         /// </summary>
         [Parameter]
         [Category(CategoryTypes.Table.Selecting)]
-        public HashSet<T> SelectedItems
+        public HashSet<TTableRow> SelectedItems
         {
             get
             {
                 if (!MultiSelection)
                     if (_selectedItem is null)
-                        return new HashSet<T>(Array.Empty<T>());
+                        return new HashSet<TTableRow>(Array.Empty<TTableRow>());
                     else
-                        return new HashSet<T>(new T[] { _selectedItem });
+                        return new HashSet<TTableRow>(new TTableRow[] { _selectedItem });
                 else
                     return Context.Selection;
             }
@@ -252,7 +252,7 @@ namespace MudBlazor
                 {
                     if (Context.Selection.Count == 0)
                         return;
-                    Context.Selection = new HashSet<T>();
+                    Context.Selection = new HashSet<TTableRow>();
                 }
                 else
                     Context.Selection = value;
@@ -264,15 +264,15 @@ namespace MudBlazor
         /// <summary>
         /// Callback is called whenever items are selected or deselected in multi selection mode.
         /// </summary>
-        [Parameter] public EventCallback<HashSet<T>> SelectedItemsChanged { get; set; }
+        [Parameter] public EventCallback<HashSet<TTableRow>> SelectedItemsChanged { get; set; }
 
-        private TableGroupDefinition<T> _groupBy;
+        private TableGroupDefinition<TTableRow> _groupBy;
         /// <summary>
         /// Defines data grouping parameters. It can has N hierarchical levels
         /// </summary>
         [Parameter]
         [Category(CategoryTypes.Table.Grouping)]
-        public TableGroupDefinition<T> GroupBy
+        public TableGroupDefinition<TTableRow> GroupBy
         {
             get => _groupBy;
             set
@@ -288,7 +288,7 @@ namespace MudBlazor
         /// </summary>
         [Parameter]
         [Category(CategoryTypes.Table.Grouping)]
-        public RenderFragment<TableGroupData<object, T>> GroupHeaderTemplate { get; set; }
+        public RenderFragment<TableGroupData<object, TTableRow>> GroupHeaderTemplate { get; set; }
 
         /// <summary>
         /// Defines custom CSS classes for using on Group Header's MudTr.
@@ -323,12 +323,12 @@ namespace MudBlazor
         /// </summary>
         [Parameter]
         [Category(CategoryTypes.Table.Grouping)]
-        public RenderFragment<TableGroupData<object, T>> GroupFooterTemplate { get; set; }
+        public RenderFragment<TableGroupData<object, TTableRow>> GroupFooterTemplate { get; set; }
 
-        private IEnumerable<T> _preEditSort { get; set; } = null;
+        private IEnumerable<TTableRow> _preEditSort { get; set; } = null;
         private bool _hasPreEditSort => _preEditSort != null;
 
-        public IEnumerable<T> FilteredItems
+        public IEnumerable<TTableRow> FilteredItems
         {
             get
             {
@@ -350,7 +350,7 @@ namespace MudBlazor
             }
         }
 
-        protected IEnumerable<T> CurrentPageItems
+        protected IEnumerable<TTableRow> CurrentPageItems
         {
             get
             {
@@ -371,10 +371,10 @@ namespace MudBlazor
             }
         }
 
-        protected IEnumerable<T> GetItemsOfPage(int n, int pageSize)
+        protected IEnumerable<TTableRow> GetItemsOfPage(int n, int pageSize)
         {
             if (n < 0 || pageSize <= 0)
-                return Array.Empty<T>();
+                return Array.Empty<TTableRow>();
 
             if (ServerData != null)
                 return _server_data.Items;
@@ -402,7 +402,7 @@ namespace MudBlazor
 
         public override void SetSelectedItem(object item)
         {
-            SelectedItem = item.As<T>();
+            SelectedItem = item.As<TTableRow>();
         }
 
         public override void SetEditingItem(object item)
@@ -422,9 +422,9 @@ namespace MudBlazor
         }
 
         // TableContext provides shared functionality between all table sub-components
-        public TableContext<T> Context { get; } = new TableContext<T>();
+        public TableContext<TTableRow> Context { get; } = new TableContext<TTableRow>();
 
-        private void OnRowCheckboxChanged(bool value, T item)
+        private void OnRowCheckboxChanged(bool value, TTableRow item)
         {
             if (value)
                 Context.Selection.Add(item);
@@ -463,13 +463,13 @@ namespace MudBlazor
         /// </summary>
         [Parameter]
         [Category(CategoryTypes.Table.Data)]
-        public Func<TableState, Task<TableData<T>>> ServerData { get; set; }
+        public Func<TableState, Task<TableData<TTableRow>>> ServerData { get; set; }
 
         internal override bool HasServerData => ServerData != null;
 
 
-        TableData<T> _server_data = new() { TotalItems = 0, Items = Array.Empty<T>() };
-        private IEnumerable<T> _items;
+        TableData<TTableRow> _server_data = new() { TotalItems = 0, Items = Array.Empty<TTableRow>() };
+        private IEnumerable<TTableRow> _items;
 
         internal override async Task InvokeServerLoadFunc()
         {
@@ -515,7 +515,7 @@ namespace MudBlazor
         internal override bool IsEditable { get => (RowEditingTemplate != null) || (Columns != null); }
 
         //GROUPING:
-        private IEnumerable<IGrouping<object, T>> GroupItemsPage
+        private IEnumerable<IGrouping<object, TTableRow>> GroupItemsPage
         {
             get
             {
@@ -523,15 +523,15 @@ namespace MudBlazor
             }
         }
 
-        internal IEnumerable<IGrouping<object, T>> GetItemsOfGroup(TableGroupDefinition<T> parent, IEnumerable<T> sourceList)
+        internal IEnumerable<IGrouping<object, TTableRow>> GetItemsOfGroup(TableGroupDefinition<TTableRow> parent, IEnumerable<TTableRow> sourceList)
         {
             if (parent == null || sourceList == null)
-                return new List<IGrouping<object, T>>();
+                return new List<IGrouping<object, TTableRow>>();
 
             return sourceList.GroupBy(parent.Selector).ToList();
         }
 
-        internal void OnGroupHeaderCheckboxClicked(bool value, IEnumerable<T> items)
+        internal void OnGroupHeaderCheckboxClicked(bool value, IEnumerable<TTableRow> items)
         {
             if (value)
             {
