@@ -115,8 +115,6 @@ namespace MudBlazor
                 }
                 else
                     _selected = Math.Max(1, Math.Min(value, Count));
-
-                SelectedChanged.InvokeAsync(_selected);
             }
         }
 
@@ -292,10 +290,10 @@ namespace MudBlazor
         }
 
         //triggered when the user clicks on a control button, e.g. the navigate-to-next-page-button
-        private void OnClickControlButton(Page page)
+        private async Task OnClickControlButton(Page page)
         {
-            ControlButtonClicked.InvokeAsync(page);
-            NavigateTo(page);
+            await ControlButtonClicked.InvokeAsync(page);
+            await NavigateTo(page);
         }
 
         //Last line cannot be tested because Page enum has 4 items
@@ -304,9 +302,9 @@ namespace MudBlazor
         /// </summary>
         /// <param name="page">The target page. page=Page.Next navigates to the next page.</param>
         [ExcludeFromCodeCoverage]
-        public void NavigateTo(Page page)
+        public Task NavigateTo(Page page)
         {
-            Selected = page switch
+            var index = page switch
             {
                 Page.First => 1,
                 Page.Last => Math.Max(1, Count),
@@ -314,15 +312,18 @@ namespace MudBlazor
                 Page.Previous => Math.Max(1, Selected - 1),
                 _ => Selected
             };
+
+            return NavigateTo(index);
         }
 
         /// <summary>
         /// Navigates to the specified page.
         /// </summary>
         /// <param name="pageIndex"></param>The target page. pageIndex=2 navigates to the 3. page.
-        public void NavigateTo(int pageIndex)
+        public Task NavigateTo(int pageIndex)
         {
-            Selected = pageIndex + 1;
+            Selected = pageIndex;
+            return SelectedChanged.InvokeAsync(Selected);
         }
 
         #endregion

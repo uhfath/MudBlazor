@@ -32,7 +32,7 @@
         }
         else {
             <li class="@ItemClassname">
-                <MudButton OnClick="@(() => Selected = currentPage)" Variant="@Variant" Size="@Size" DisableRipple="true" Disabled="@Disabled" aria-label="@($"Page {currentPage}")">@currentPage</MudButton>
+                <MudButton OnClick="@(() => NavigateTo(currentPage))" Variant="@Variant" Size="@Size" DisableRipple="true" Disabled="@Disabled" aria-label="@($"Page {currentPage}")">@currentPage</MudButton>
             </li>
         }
     }
