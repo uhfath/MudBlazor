@@ -16,9 +16,9 @@ namespace MudBlazor
 {
     public partial class MudRawInput<T> : MudComponentBase
     {
-        private const string ItemPropertyName = "Item";
-        private static readonly char[] Separators = { '.', '[' };
+#pragma warning disable IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
         private static readonly TypeConverter TypeConverter = TypeDescriptor.GetConverter(typeof(T));
+#pragma warning restore IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
 
         public delegate string FormatToStringDelegate(in T value);
         public delegate bool ParseFromStringDelegate(string text, out T value);
