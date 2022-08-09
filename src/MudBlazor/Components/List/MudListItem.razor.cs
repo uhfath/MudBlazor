@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -220,7 +221,7 @@ namespace MudBlazor
         [Parameter]
         public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-        protected void OnClickHandler(MouseEventArgs ev)
+        protected async Task OnClickHandler(MouseEventArgs ev)
         {
             if (Disabled)
                 return;
@@ -233,13 +234,13 @@ namespace MudBlazor
                 else if (Href != null)
                 {
                     MudList?.SetSelectedValue(this.Value);
-                    OnClick.InvokeAsync(ev);
+                    await OnClick.InvokeAsync(ev);
                     UriHelper.NavigateTo(Href, ForceLoad);
                 }
                 else
                 {
                     MudList?.SetSelectedValue(this.Value);
-                    OnClick.InvokeAsync(ev);
+                    await OnClick.InvokeAsync(ev);
                     if (Command?.CanExecute(CommandParameter) ?? false)
                     {
                         Command.Execute(CommandParameter);
@@ -248,7 +249,7 @@ namespace MudBlazor
             }
             else
             {
-                OnClick.InvokeAsync(ev);
+                await OnClick.InvokeAsync(ev);
             }
         }
 
