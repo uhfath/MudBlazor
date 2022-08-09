@@ -1,7 +1,8 @@
 ﻿@namespace MudBlazor
 @inherits MudTableBase
 @using MudBlazor.Utilities
-@typeparam T
+@typeparam TTableRow
+@attribute [CascadingTypeParameter(nameof(TTableRow))]
 <div @attributes="UserAttributes" class="@Classname" style="@Style">
 @if (Items != null || ServerData != null)
 {
@@ -15,7 +16,7 @@
         @if (Context.SortLabels.Any())
         {
             <div Class="mud-table-smalldevices-sortselect">
-                <MudSelect Value="@Context.CurrentSortLabel" Label="@SortLabel" ValueChanged="@(v => Context.SetSortFunc(v, override_direction_none: true))" T="MudTableSortLabel<T>">
+                <MudSelect Value="@Context.CurrentSortLabel" Label="@SortLabel" ValueChanged="@(v => Context.SetSortFunc(v, override_direction_none: true))" T="MudTableSortLabel<TTableRow>">
                     @foreach (var label in Context.SortLabels)
                     {
                         <MudSelectItem Value="@label">@label.ChildContent</MudSelectItem>
@@ -55,17 +56,17 @@
                                 }
                             </MudTHeadRow>
                         }
-                    </thead>
-                }
-                <tbody class="mud-table-body">
                     @if (Loading)
                     {
                         <tr>
-                            <td colspan="1000" class="@(CurrentPageItems.Count() > 0 || LoadingContent != null ? "mud-table-loading" : "")">
+                            <th colspan="1000" class="@(CurrentPageItems.Count() > 0 || LoadingContent != null ? "mud-table-loading" : "")">
                                 <MudProgressLinear Color="@LoadingProgressColor" Class="mud-table-loading-progress" Indeterminate="true" />
-                            </td>
+                            </th>
                         </tr>
                     }
+                    </thead>
+                }
+                <tbody class="mud-table-body">
                     @if(GroupBy != null)
                     {
                         @foreach (var group in GroupItemsPage)
@@ -73,7 +74,7 @@
                             <MudTableGroupRow GroupDefinition="GroupBy" Items="group" IsCheckable="MultiSelection" 
                                               HeaderClass="@GroupHeaderClass" HeaderStyle="@GroupHeaderStyle" 
                                               FooterClass="@GroupFooterClass" FooterStyle="@GroupFooterStyle"
-                                              HeaderTemplate="@GroupHeaderTemplate" FooterTemplate="@GroupFooterTemplate" T="T"  />
+                                              HeaderTemplate="@GroupHeaderTemplate" FooterTemplate="@GroupFooterTemplate" T="TTableRow"  />
                         }
                     }
                     else
@@ -128,8 +129,8 @@
                         && (Loading ? LoadingContent != null : NoRecordsContent != null)
                     )
                     {
-                        <tr>
-                            <th colspan="1000" class="mud-table-empty-row">
+                        <tr class="mud-table-empty-row">
+                            <th colspan="1000" class="mud-table-empty-cell">
                                 <div Class="my-3">
                                     @if(Loading)
                                     {
@@ -182,7 +183,7 @@
 @code
 {
     // moved to code to avoid repeatedly code on markup block
-    internal RenderFragment RenderRows(IEnumerable<T> source, string customClass = null, bool isExpandable = false)
+    internal RenderFragment RenderRows(IEnumerable<TTableRow> source, string customClass = null, bool isExpandable = false)
     {
         var rowIndex = 0;
 
@@ -192,7 +193,7 @@
                 </MudVirtualize>
             </text>;
 
-         RenderFragment<T> child() => item =>
+         RenderFragment<TTableRow> child() => item =>
              @<text>
              @{
                 var rowClass = new CssBuilder(RowClass).AddClass(RowClassFunc?.Invoke(item, rowIndex)).AddClass(customClass, ! string.IsNullOrEmpty("mud-table-row-group-indented-1")).Build();

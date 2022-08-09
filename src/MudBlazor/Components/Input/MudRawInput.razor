@@ -1,0 +1,109 @@
+﻿@namespace MudBlazor
+@inherits MudComponentBase
+@typeparam T
+@using MudBlazor.Internal
+
+<div class="@_containerClass" style="@Style">
+    @foreach (var adornment in _startAdornments)
+    {
+	    <MudInputAdornment
+            Class="@(adornment.Class ?? GetAdornmentClassname(adornment))"
+            Icon="@adornment.AdornmentIcon"
+            Color="adornment.AdornmentColor"
+            Size="adornment.AdornmentIconSize"
+            Text="@adornment.AdornmentText"
+            Edge="Edge.Start"
+            AdornmentClick="adornment.OnAdornmentClick"
+            Disabled="Disabled"
+            AriaLabel="@adornment.AdornmentAriaLabel" />
+    }
+
+    @if (ChildContent == null)
+    {
+	    <input
+            @ref="InputElementReference"
+            class="@_inputClass"
+            value="@_currentValueText"
+            placeholder="@Placeholder"
+            disabled="@Disabled"
+            readonly="@ReadOnly"
+            inputmode="@_inputMode"
+            type="@_inputType"
+            maxlength="@MaxLength"
+            @oninput="OnInputInternal"
+            @onchange="OnChangeInternal"
+            @onfocus="OnFocusInternal"
+            @onblur="OnBlurInternal"
+            @onkeydown="OnKeyDownInternal"
+            @onkeypress="OnKeyPressInternal"
+            @onkeyup="OnKeyUpInternal"
+            @onkeydown:preventDefault="KeyDownPreventDefault"
+            @onkeypress:preventDefault="KeyPressPreventDefault"
+            @onkeyup:preventDefault="KeyUpPreventDefault"
+            @onclick="OnClickInternal"
+            @attributes="UserAttributes" />
+    }
+    else
+    {
+        <div
+            @ref="InputElementReference"
+            class="@_inputClass"
+            tabindex="0"
+            @oninput="OnInputInternal"
+            @onchange="OnChangeInternal"
+            @onfocus="OnFocusInternal"
+            @onblur="OnBlurInternal"
+            @onkeydown="OnKeyDownInternal"
+            @onkeypress="OnKeyPressInternal"
+            @onkeyup="OnKeyUpInternal"
+            @onkeydown:preventDefault="KeyDownPreventDefault"
+            @onkeypress:preventDefault="KeyPressPreventDefault"
+            @onkeyup:preventDefault="KeyUpPreventDefault"
+            @onclick="OnClickInternal"
+            @attributes="UserAttributes">
+            @ChildContent(Value)
+        </div>
+    }
+
+	@if (_showClearIcon)
+    {
+        <MudIconButton
+            Class="@_clearButtonClass"
+            Color="Color.Default"
+            Icon="@ClearIcon"
+            Size="Size.Small"
+            Disabled="Disabled"
+            OnClick="OnClearButtonClickInternal" />
+	}
+
+    @foreach (var adornment in _endAdornments)
+    {
+	    <MudInputAdornment
+            Class="@(adornment.Class ?? GetAdornmentClassname(adornment))"
+            Icon="@adornment.AdornmentIcon"
+            Color="adornment.AdornmentColor"
+            Size="adornment.AdornmentIconSize"
+            Text="@adornment.AdornmentText"
+            Edge="Edge.End"
+            Disabled="Disabled"
+            AdornmentClick="adornment.OnAdornmentClick"
+            AriaLabel="@adornment.AdornmentAriaLabel" />
+    }
+
+	@if (Variant == Variant.Outlined)
+	{
+	    <div class="mud-input-outlined-border"></div>
+	}
+
+	@if (ShowSpinners)
+	{
+	    <div class="mud-input-numeric-spin">
+            <MudButton Variant="Variant.Text" OnClick="OnSpinnerIncrement" Disabled="@(Disabled || ReadOnly)" tabindex="-1">
+                <MudIcon Icon="@SpinnerUpIcon" Size="_spinnerButtonSize" />
+            </MudButton>
+            <MudButton Variant="Variant.Text" OnClick="OnSpinnerDecrement" Disabled="@(Disabled || ReadOnly)" tabindex="-1">
+                <MudIcon Icon="@SpinnerDownIcon" Size="_spinnerButtonSize" />
+            </MudButton>
+	    </div>
+	}
+</div>

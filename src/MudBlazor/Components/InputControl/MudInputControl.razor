@@ -1,7 +1,19 @@
 ﻿@namespace MudBlazor
 @inherits MudComponentBase
 
-<div @attributes="UserAttributes" class="@Classname" style="@Style">
+<div @attributes="UserAttributes" class="@Classname" style="@Style"
+    @onkeydown="OnKeyDown"
+    @onkeypress="OnKeyPress"
+    @onkeyup="OnKeyUp"
+    @onmousedown="OnMouseDown"
+    @onclick="OnClick"
+    @onmouseup="OnMouseUp"
+    @onkeydown:preventDefault="KeyDownPreventDefault"
+    @onkeypress:preventDefault="KeyPressPreventDefault"
+    @onkeyup:preventDefault="KeyUpPreventDefault"
+    @onmousedown:preventDefault="MouseDownPreventDefault"
+    @onclick:preventDefault="ClickPreventDefault"
+    @onmouseup:preventDefault="MouseUpPreventDefault">
     <div class="mud-input-control-input-container">
         @InputContent
         @if (!String.IsNullOrEmpty(Label))
@@ -16,23 +28,26 @@
     {
         <div class="@HelperContainer">
             <p class="@HelperClass">
+                <div class="d-flex flex-column">
                 <div class="d-flex">
-                    @if (Error)
-                    {
-                        <div class="me-auto" id="@ErrorId">
-                            @ErrorText
-                        </div>
-                    }
-                    else if (!String.IsNullOrEmpty(HelperText))
-                    {
-                        <div class="me-auto">
-                            @HelperText
-                        </div>
-                    }
                     @if (!String.IsNullOrEmpty(CounterText))
                     {
                         <div class="ms-auto">
                             @CounterText
+                        </div>
+                    }
+                    @if (!String.IsNullOrEmpty(HelperText))
+                    {
+                        <div class="me-auto mud-input-helper-text">
+                            @HelperText
+                        </div>
+                    }
+                    </div>
+
+                    @if (Error)
+                    {
+                        <div class="me-auto mud-input-error-text" id="@ErrorId">
+                            @ErrorText
                         </div>            
                     }
                 </div>

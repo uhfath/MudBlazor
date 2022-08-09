@@ -87,7 +87,7 @@
     }
 }
 
-.mud-table-hover.mud-table-striped {
+.mud-simple-table.mud-table-hover.mud-table-striped {
     & .mud-table-container table tbody {
         & tr:nth-of-type(odd):nth-of-type(odd):hover {
             background-color: var(--mud-palette-table-hover);

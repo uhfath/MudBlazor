@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using MudBlazor.Extensions;
 using MudBlazor.Utilities;
 
@@ -100,5 +101,41 @@ namespace MudBlazor
         /// If string has value the label "for" attribute will be added.
         /// </summary>
         [Parameter] public string ForId { get; set; } = string.Empty;
+
+        [Parameter]
+        public bool KeyDownPreventDefault { get; set; }
+
+        [Parameter]
+        public bool KeyPressPreventDefault { get; set; }
+
+        [Parameter]
+        public bool KeyUpPreventDefault { get; set; }
+
+        [Parameter]
+        public bool MouseDownPreventDefault { get; set; }
+
+        [Parameter]
+        public bool ClickPreventDefault { get; set; }
+
+        [Parameter]
+        public bool MouseUpPreventDefault { get; set; }
+
+        [Parameter]
+        public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
+
+        [Parameter]
+        public EventCallback<KeyboardEventArgs> OnKeyPress { get; set; }
+
+        [Parameter]
+        public EventCallback<KeyboardEventArgs> OnKeyUp { get; set; }
+
+        [Parameter]
+        public EventCallback<MouseEventArgs> OnMouseDown { get; set; }
+
+        [Parameter]
+        public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+        [Parameter]
+        public EventCallback<MouseEventArgs> OnMouseUp { get; set; }
     }
 }
