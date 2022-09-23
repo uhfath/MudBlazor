@@ -268,7 +268,7 @@ namespace MudBlazor
         /// </summary>
         [Parameter]
         [Category(CategoryTypes.FormComponent.Behavior)]
-        public IEqualityComparer<T> Comparer
+        public IEqualityComparer<TTableRow> Comparer
         {
             get => _comparer;
             set
@@ -280,7 +280,7 @@ namespace MudBlazor
             }
         }
 
-        private IEqualityComparer<T> _comparer;
+        private IEqualityComparer<TTableRow> _comparer;
 
         /// <summary>
         /// Callback is called whenever items are selected or deselected in multi selection mode.
