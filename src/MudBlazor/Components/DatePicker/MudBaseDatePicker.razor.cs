@@ -119,7 +119,7 @@ namespace MudBlazor
         [Parameter] public EventCallback<DateTime?> PickerMonthChanged { get; set; }
 
         /// <summary>
-        /// Milliseconds to wait before closing the picker. This helps the user see that the date was selected before the popover disappears.
+        /// Sets the amount of time in milliseconds to wait before closing the picker. This helps the user see that the date was selected before the popover disappears.
         /// </summary>
         [Parameter]
         [Category(CategoryTypes.FormComponent.PickerBehavior)]
@@ -160,6 +160,13 @@ namespace MudBlazor
         [Parameter]
         [Category(CategoryTypes.FormComponent.PickerBehavior)]
         public string TitleDateFormat { get; set; } = "ddd, dd MMM";
+
+        /// <summary>
+        /// If AutoClose is set to true and PickerActions are defined, selecting a day will close the MudDatePicker.
+        /// </summary>
+        [Parameter]
+        [Category(CategoryTypes.FormComponent.PickerBehavior)]
+        public bool AutoClose { get; set; }
 
         /// <summary>
         /// Function to determine whether a date is disabled
@@ -555,6 +562,8 @@ namespace MudBlazor
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            await base.OnAfterRenderAsync(firstRender);
+
             if (firstRender)
             {
                 _picker_month ??= GetCalendarStartOfMonth();
@@ -568,7 +577,6 @@ namespace MudBlazor
 
             if (_scrollToYearAfterRender)
                 ScrollToYear();
-            await base.OnAfterRenderAsync(firstRender);
         }
 
         protected abstract DateTime GetCalendarStartOfMonth();
