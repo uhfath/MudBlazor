@@ -32,13 +32,14 @@ namespace MudBlazor
                 .AddClass(baseInput.Class)
                 .Build();
 
-        public static string GetInputClassname<T>(MudRawInput<T> rawInput) =>
+        public static string GetInputClassname<T>(MudRawInput<T> rawInput, bool isDiv) =>
             new CssBuilder("mud-input-slot")
                 .AddClass("mud-input-root")
                 .AddClass($"mud-input-root-{rawInput.Variant.ToDescriptionString()}")
                 .AddClass($"mud-input-adorned-start", rawInput.HasStartAdornments)
                 .AddClass($"mud-input-adorned-end", rawInput.HasEndAdornments)
                 .AddClass($"mud-input-root-margin-{rawInput.Margin.ToDescriptionString()}", when: () => rawInput.Margin != Margin.None)
+                .AddClass("mud-input-placeholder", isDiv)
                 .AddClass(rawInput.Class)
                 .Build();
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.Metrics;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -182,7 +183,9 @@ namespace MudBlazor
         private string _containerClass =>
             MudInputCssHelper.GetClassname(this, !string.IsNullOrEmpty(CurrentInputText) || HasStartAdornments || !string.IsNullOrWhiteSpace(Placeholder));
         private string _inputClass =>
-            MudInputCssHelper.GetInputClassname(this);
+            MudInputCssHelper.GetInputClassname(this, false);
+        private string _inputDivClass =>
+            MudInputCssHelper.GetInputClassname(this, true);
         private string _clearButtonClass =>
             new CssBuilder()
                 .AddClass("me-n1", HasEndAdornments && ShowSpinners)

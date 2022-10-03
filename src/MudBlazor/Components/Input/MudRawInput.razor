@@ -47,8 +47,9 @@
     {
         <div
             @ref="InputElementReference"
-            class="@_inputClass"
+            class="@_inputDivClass"
             tabindex="0"
+            placeholder="@Placeholder"
             @oninput="OnInputInternal"
             @onchange="OnChangeInternal"
             @onfocus="OnFocusInternal"
@@ -68,6 +69,7 @@
 	@if (_showClearIcon)
     {
         <MudIconButton
+            tabindex="-1"
             Class="@_clearButtonClass"
             Color="Color.Default"
             Icon="@ClearIcon"
