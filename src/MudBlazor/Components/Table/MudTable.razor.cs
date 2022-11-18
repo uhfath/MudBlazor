@@ -435,7 +435,7 @@ namespace MudBlazor
 
         public override bool ContainsItem(object item)
         {
-            var t = item.As<T>();
+            var t = item.As<TTableRow>();
             if (t is null)
                 return false;
             return FilteredItems?.Contains(t) ?? false;
