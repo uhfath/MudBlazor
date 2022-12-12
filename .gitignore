@@ -424,3 +424,6 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+/src/MudBlazor.UnitTests*
+/src/MudBlazor.Docs*
+/src/MudBlazor.Examples*
