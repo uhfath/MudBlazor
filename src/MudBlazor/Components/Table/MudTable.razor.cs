@@ -171,7 +171,7 @@ namespace MudBlazor
         public Func<TTableRow, bool> Filter { get; set; } = null;
 
         /// <summary>
-        /// Button click event.
+        /// Row click event.
         /// </summary>
         [Parameter] public EventCallback<TableRowClickEventArgs<TTableRow>> OnRowClick { get; set; }
 
@@ -456,25 +456,26 @@ namespace MudBlazor
         // TableContext provides shared functionality between all table sub-components
         public TableContext<TTableRow> Context { get; } = new TableContext<TTableRow>();
 
-        private void OnRowCheckboxChanged(bool value, TTableRow item)
+        private void OnRowCheckboxChanged(bool checkedState, TTableRow item)
         {
-            if (value)
+            if (checkedState)
                 Context.Selection.Add(item);
             else
                 Context.Selection.Remove(item);
             SelectedItemsChanged.InvokeAsync(SelectedItems);
         }
 
-        internal override void OnHeaderCheckboxClicked(bool value)
+        internal override void OnHeaderCheckboxClicked(bool checkedState)
         {
-            if (!value)
-                Context.Selection.Clear();
-            else
+            if (checkedState)
             {
                 foreach (var item in FilteredItems)
                     Context.Selection.Add(item);
             }
-            Context.UpdateRowCheckBoxes(false);
+            else
+                Context.Selection.Clear();
+            
+            Context.UpdateRowCheckBoxes(notify: false);
             SelectedItemsChanged.InvokeAsync(SelectedItems);
         }
 
@@ -562,9 +563,9 @@ namespace MudBlazor
             return sourceList.GroupBy(parent.Selector).ToList();
         }
 
-        internal void OnGroupHeaderCheckboxClicked(bool value, IEnumerable<TTableRow> items)
+        internal void OnGroupHeaderCheckboxClicked(bool checkedState, IEnumerable<TTableRow> items)
         {
-            if (value)
+            if (checkedState)
             {
                 foreach (var item in items)
                     Context.Selection.Add(item);
@@ -575,7 +576,7 @@ namespace MudBlazor
                     Context.Selection.Remove(item);
             }
 
-            Context.UpdateRowCheckBoxes(false);
+            Context.UpdateRowCheckBoxes(notify: false);
             SelectedItemsChanged.InvokeAsync(SelectedItems);
         }
     }
