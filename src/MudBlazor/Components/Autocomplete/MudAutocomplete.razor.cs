@@ -205,7 +205,7 @@ namespace MudBlazor
         public bool SelectOnClick { get; set; } = true;
 
         /// <summary>
-        /// If true, clicking on the Autocomplete after selecting an option will query the Search method again with an empty string. This makes it easier to view and select other options without resetting the Value.
+        /// If false, clicking on the Autocomplete after selecting an option will query the Search method again with an empty string. This makes it easier to view and select other options without resetting the Value.
         /// T must either be a record or override GetHashCode and Equals.
         /// </summary>
         [Parameter]
@@ -537,7 +537,7 @@ namespace MudBlazor
         {
             _isCleared = true;
             IsOpen = false;
-            await SetTextAsync(string.Empty, updateValue: false);
+            await SetTextAsync(null, updateValue: false);
             await CoerceValueToText();
             if (_elementReference != null)
                 await _elementReference.SetText("");
@@ -548,7 +548,6 @@ namespace MudBlazor
         protected override async void ResetValue()
         {
             await Clear();
-            base.ResetValue();
         }
 
 
@@ -579,6 +578,7 @@ namespace MudBlazor
                         IsOpen = false;
                     break;
             }
+            base.InvokeKeyDown(args);
         }
 
         internal virtual async Task OnInputKeyUp(KeyboardEventArgs args)
@@ -740,7 +740,7 @@ namespace MudBlazor
         protected override void Dispose(bool disposing)
         {
             _timer?.Dispose();
-            
+
             if (_cancellationTokenSrc != null)
             {
                 try
