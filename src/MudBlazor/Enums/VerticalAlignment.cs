@@ -3,17 +3,17 @@
 namespace MudBlazor
 {
     public enum VerticalAlignment
-	{
-		[Description("baseline")]
-		Base,
+    {
+        [Description("baseline")]
+        Base,
 
-		[Description("middle")]
-		Center,
+        [Description("middle")]
+        Center,
 
-		[Description("top")]
-		Top,
+        [Description("top")]
+        Top,
 
-		[Description("bottom")]
-		Bottom,
-	}
+        [Description("bottom")]
+        Bottom,
+    }
 }
