@@ -180,6 +180,9 @@ namespace MudBlazor
                 ? Size.Small
                 : Size.Medium;
 
+        private bool _buttonsDisabled =>
+            Disabled || ReadOnly;
+
         private string _containerClass =>
             MudInputCssHelper.GetClassname(this, !string.IsNullOrEmpty(CurrentInputText) || HasStartAdornments || !string.IsNullOrWhiteSpace(Placeholder));
         private string _inputClass =>

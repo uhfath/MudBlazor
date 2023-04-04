@@ -89,7 +89,7 @@ namespace MudBlazor
         private bool _isDisposed;
 
         private RenderFragment RenderBaseInput() =>
-            builder => base.BuildRenderTree(builder);
+            base.BuildRenderTree;
 
         private string _counterText =>
             Counter == null

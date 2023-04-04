@@ -14,7 +14,7 @@
             Text="@adornment.AdornmentText"
             Edge="Edge.Start"
             AdornmentClick="adornment.OnAdornmentClick"
-            Disabled="Disabled"
+            Disabled="_buttonsDisabled"
             AriaLabel="@adornment.AdornmentAriaLabel" />
     }
 
@@ -74,7 +74,7 @@
             Color="Color.Default"
             Icon="@ClearIcon"
             Size="Size.Small"
-            Disabled="Disabled"
+            Disabled="_buttonsDisabled"
             OnClick="OnClearButtonClickInternal" />
 	}
 
@@ -87,7 +87,7 @@
             Size="adornment.AdornmentIconSize"
             Text="@adornment.AdornmentText"
             Edge="Edge.End"
-            Disabled="Disabled"
+            Disabled="_buttonsDisabled"
             AdornmentClick="adornment.OnAdornmentClick"
             AriaLabel="@adornment.AdornmentAriaLabel" />
     }
@@ -100,10 +100,10 @@
 	@if (ShowSpinners)
 	{
 	    <div class="mud-input-numeric-spin">
-            <MudButton Variant="Variant.Text" OnClick="OnSpinnerIncrement" Disabled="@(Disabled || ReadOnly)" tabindex="-1">
+            <MudButton Variant="Variant.Text" OnClick="OnSpinnerIncrement" Disabled="_buttonsDisabled" tabindex="-1">
                 <MudIcon Icon="@SpinnerUpIcon" Size="_spinnerButtonSize" />
             </MudButton>
-            <MudButton Variant="Variant.Text" OnClick="OnSpinnerDecrement" Disabled="@(Disabled || ReadOnly)" tabindex="-1">
+            <MudButton Variant="Variant.Text" OnClick="OnSpinnerDecrement" Disabled="_buttonsDisabled" tabindex="-1">
                 <MudIcon Icon="@SpinnerDownIcon" Size="_spinnerButtonSize" />
             </MudButton>
 	    </div>
