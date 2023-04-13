@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using MudBlazor.Interfaces;
 using MudBlazor.Utilities;
 
 namespace MudBlazor
@@ -80,6 +80,13 @@ namespace MudBlazor
         [Parameter] public bool? ShowColumnOptions { get; set; }
 
         [Parameter]
+        public IComparer<object> Comparer
+        {
+            get => _comparer;
+            set => _comparer = value;
+        }
+
+        [Parameter]
         public Func<T, object> SortBy
         {
             get
@@ -91,7 +98,6 @@ namespace MudBlazor
                 _sortBy = value;
             }
         }
-
         [Parameter] public SortDirection InitialDirection { get; set; } = SortDirection.None;
         [Parameter] public string SortIcon { get; set; } = Icons.Material.Filled.ArrowUpward;
 
@@ -218,7 +224,7 @@ namespace MudBlazor
         {
             get
             {
-                return FilterOperator.NumericTypes.Contains(PropertyType);
+                return TypeIdentifier.IsNumber(PropertyType);
             }
         }
 
@@ -243,6 +249,7 @@ namespace MudBlazor
         internal int SortIndex { get; set; } = -1;
         internal HeaderCell<T> HeaderCell { get; set; }
 
+        private IComparer<object> _comparer = null;
         private Func<T, object> _sortBy;
         internal Func<T, object> groupBy;
         internal HeaderContext<T> headerContext;
@@ -377,7 +384,7 @@ namespace MudBlazor
         {
             Hidden = !Hidden;
             await HiddenChanged.InvokeAsync(Hidden);
-            DataGrid.ExternalStateHasChanged();
+            ((IMudStateHasChanged)DataGrid).StateHasChanged();
         }
 
 
@@ -393,7 +400,10 @@ namespace MudBlazor
         }
 
         public virtual string PropertyName { get; }
-        protected internal virtual string ContentFormat { get; }
+
+#nullable enable
+        protected internal virtual string? ContentFormat { get; }
+#nullable disable
 
         protected internal abstract object CellContent(T item);
 

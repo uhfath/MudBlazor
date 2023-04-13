@@ -191,9 +191,29 @@ namespace MudBlazor
         /// </summary>
         protected T _value;
 
+        protected Task BeginValidationAfterAsync(Task task)
+        {
+            Func<Task> execute = async () =>
+            {
+                var value = _value;
+
+                await task;
+
+                // we validate only if the value hasn't changed while we waited for task.
+                // if it has in fact changed, another validate call will follow anyway
+                if (EqualityComparer<T>.Default.Equals(value, _value))
+                {
+                    await BeginValidateAsync();
+                }
+            };
+
+            return execute();
+        }
+
         // These are the fire-and-forget methods to launch an async validation process.
         // After each async step, we make sure the current Value of the component has not changed while
         // async code was executed to avoid race condition which could lead to incorrect validation results.
+        [Obsolete($"Use {nameof(BeginValidationAfterAsync)} instead, this will be removed in v7")]
         protected void BeginValidateAfter(Task task)
         {
             Func<Task> execute = async () =>
@@ -212,6 +232,24 @@ namespace MudBlazor
             execute().AndForget();
         }
 
+        protected Task BeginValidateAsync()
+        {
+            Func<Task> execute = async () =>
+            {
+                var value = _value;
+
+                await ValidateValue();
+
+                if (EqualityComparer<T>.Default.Equals(value, _value))
+                {
+                    EditFormValidate();
+                }
+            };
+
+            return execute();
+        }
+
+        [Obsolete($"Use {nameof(BeginValidateAsync)} instead, this will be removed in v7")]
         protected void BeginValidate()
         {
             Func<Task> execute = async () =>
@@ -640,5 +678,7 @@ namespace MudBlazor
             DetachValidationStateChangedListener();
             Dispose(disposing: true);
         }
+
+        void IFormComponent.StateHasChanged() => StateHasChanged();
     }
 }

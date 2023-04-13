@@ -3,6 +3,11 @@
 @using MudBlazor.Utilities
 @typeparam TTableRow
 @attribute [CascadingTypeParameter(nameof(TTableRow))]
+
+
+
+@(ClearFilterCache()) @*Clear filtered items cache for this render*@
+
 <div @attributes="UserAttributes" class="@Classname" style="@Style">
 @if (Items != null || ServerData != null)
 {

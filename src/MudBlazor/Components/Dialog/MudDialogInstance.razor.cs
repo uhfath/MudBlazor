@@ -289,18 +289,18 @@ namespace MudBlazor
             return false;
         }
 
-        private void HandleBackgroundClick()
+        private async Task HandleBackgroundClickAsync(MouseEventArgs args)
         {
             if (DisableBackdropClick)
                 return;
 
-            if (_dialog?.OnBackdropClick == null)
+            if (_dialog is null || !_dialog.OnBackdropClick.HasDelegate)
             {
                 Cancel();
                 return;
             }
 
-            _dialog?.OnBackdropClick.Invoke();
+            await _dialog.OnBackdropClick.InvokeAsync(args);
         }
 
         private MudDialog _dialog;
@@ -317,10 +317,10 @@ namespace MudBlazor
             StateHasChanged();
         }
 
-        public void ForceRender()
-        {
-            StateHasChanged();
-        }
+        [Obsolete($"Use {nameof(StateHasChanged)}. This method will be removed in v7.")]
+        public void ForceRender() => StateHasChanged();
+
+        public new void StateHasChanged() => base.StateHasChanged();
 
         /// <summary>
         /// Cancels all dialogs in dialog provider collection.
