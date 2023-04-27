@@ -59,14 +59,15 @@ namespace MudBlazor
         [Category(CategoryTypes.Dialog.Appearance)]
         public string CloseIcon { get; set; } = Icons.Material.Filled.Close;
 
-        private string Position { get; set; }
-        private string DialogMaxWidth { get; set; }
-        private bool DisableBackdropClick { get; set; }
-        private bool CloseOnEscapeKey { get; set; }
-        private bool NoHeader { get; set; }
-        private bool CloseButton { get; set; }
-        private bool FullScreen { get; set; }
-        private bool FullWidth { get; set; }
+        public string Position { get; set; }
+        public string DialogMaxWidth { get; set; }
+        public bool DisableBackdropClick { get; set; }
+        public bool CloseOnEscapeKey { get; set; }
+        public bool NoHeader { get; set; }
+        public bool CloseButton { get; set; }
+        public bool FullScreen { get; set; }
+        public bool FullWidth { get; set; }
+        public bool ShouldAutoCloseOnLocationChange { get; set; }
 
 
         protected override void OnInitialized()
@@ -173,6 +174,8 @@ namespace MudBlazor
             FullScreen = SetFulScreen();
             DisableBackdropClick = SetDisableBackdropClick();
             CloseOnEscapeKey = SetCloseOnEscapeKey();
+            ShouldAutoCloseOnLocationChange = SetAutoCloseOnLocationChange();
+            
             Class = Classname;
         }
 
@@ -287,6 +290,17 @@ namespace MudBlazor
                 return GlobalDialogOptions.CloseOnEscapeKey.Value;
 
             return false;
+        }
+
+        private bool SetAutoCloseOnLocationChange()
+        {
+            if (Options.ShouldAutoCloseOnLocationChange.HasValue)
+                return Options.ShouldAutoCloseOnLocationChange.Value;
+
+            if (GlobalDialogOptions.ShouldAutoCloseOnLocationChange.HasValue)
+                return GlobalDialogOptions.ShouldAutoCloseOnLocationChange.Value;
+
+            return true;
         }
 
         private async Task HandleBackgroundClickAsync(MouseEventArgs args)

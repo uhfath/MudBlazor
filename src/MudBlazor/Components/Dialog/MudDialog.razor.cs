@@ -5,12 +5,13 @@
 using System;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using MudBlazor.Components.Dialog;
 using MudBlazor.Interfaces;
 using MudBlazor.Utilities;
 
 namespace MudBlazor
 {
-    public partial class MudDialog : MudComponentBase
+    public partial class MudDialog : MudComponentBase, IMudDialogInstanceGetter
     {
         protected string ContentClass => new CssBuilder("mud-dialog-content")
           .AddClass($"mud-dialog-no-side-padding", DisableSidePadding)
@@ -127,6 +128,8 @@ namespace MudBlazor
 
         private IDialogReference _reference;
 
+        public MudDialogInstance MudDialogInstance => DialogInstance;
+
         /// <summary>
         /// Show this inlined dialog
         /// </summary>
@@ -153,11 +156,7 @@ namespace MudBlazor
                 [nameof(ContentStyle)] = ContentStyle,
             };
             _reference = DialogService.Show<MudDialog>(title, parameters, options ?? Options);
-            _reference.Result.ContinueWith(t =>
-            {
-                _isVisible = false;
-                InvokeAsync(() => IsVisibleChanged.InvokeAsync(false));
-            });
+            _reference.Result.ContinueWith(t => IsVisible = false);
             return _reference;
         }
 

@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
+using MudBlazor.Components.Dialog;
 
 namespace MudBlazor
 {
@@ -27,6 +28,7 @@ namespace MudBlazor
         [Parameter] [Category(CategoryTypes.Dialog.Appearance)] public bool? FullWidth { get; set; }
         [Parameter] [Category(CategoryTypes.Dialog.Appearance)] public DialogPosition? Position { get; set; }
         [Parameter] [Category(CategoryTypes.Dialog.Appearance)] public MaxWidth? MaxWidth { get; set; }
+        [Parameter] [Category(CategoryTypes.Dialog.Appearance)] public bool? ShouldAutoCloseOnLocationChange { get; set; }
 
         private readonly Collection<IDialogReference> _dialogs = new();
         private readonly DialogOptions _globalDialogOptions = new();
@@ -44,6 +46,7 @@ namespace MudBlazor
             _globalDialogOptions.Position = Position;
             _globalDialogOptions.FullWidth = FullWidth;
             _globalDialogOptions.MaxWidth = MaxWidth;
+            _globalDialogOptions.ShouldAutoCloseOnLocationChange = ShouldAutoCloseOnLocationChange;
         }
 
         protected override Task OnAfterRenderAsync(bool firstRender)
@@ -91,9 +94,17 @@ namespace MudBlazor
             return _dialogs.SingleOrDefault(x => x.Id == id);
         }
 
+        private static bool IsDialogShoudAutoCloseOnLocationChange(object dialog) =>
+            dialog is not IMudDialogInstanceGetter getter || getter.MudDialogInstance.ShouldAutoCloseOnLocationChange;
+
         private void LocationChanged(object sender, LocationChangedEventArgs args)
         {
-            DismissAll();
+            _dialogs
+                .Where(d => IsDialogShoudAutoCloseOnLocationChange(d.Dialog))
+                .ToList()
+                .ForEach(r => DismissInstance(r, DialogResult.Cancel()));
+
+            StateHasChanged();
         }
 
         public void Dispose()
