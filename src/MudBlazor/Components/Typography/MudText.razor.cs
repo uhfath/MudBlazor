@@ -13,6 +13,7 @@ namespace MudBlazor
           .AddClass("mud-typography-gutterbottom", GutterBottom)
           .AddClass($"mud-typography-align-{ConvertAlign(Align).ToDescriptionString()}", Align != Align.Inherit)
           .AddClass("mud-typography-display-inline", Inline)
+          .AddClass("mud-text-disabled", Disabled)
           .AddClass(Class)
         .Build();
 
@@ -27,6 +28,9 @@ namespace MudBlazor
         }
 
         [CascadingParameter(Name = "RightToLeft")] public bool RightToLeft { get; set; }
+
+        [Parameter]
+        public bool Disabled { get; set; }
 
         /// <summary>
         /// Applies the theme typography styles.
