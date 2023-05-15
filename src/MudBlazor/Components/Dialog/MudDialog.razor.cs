@@ -3,15 +3,15 @@
 // Copyright (c) 2020 Jonny Larsson and Meinrad Recheis
 
 using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using MudBlazor.Components.Dialog;
 using MudBlazor.Interfaces;
 using MudBlazor.Utilities;
 
 namespace MudBlazor
 {
-    public partial class MudDialog : MudComponentBase, IMudDialogInstanceGetter
+    public partial class MudDialog : MudComponentBase
     {
         protected string ContentClass => new CssBuilder("mud-dialog-content")
           .AddClass($"mud-dialog-no-side-padding", DisableSidePadding)
@@ -99,17 +99,8 @@ namespace MudBlazor
         /// </summary>
         [Parameter]
         [Category(CategoryTypes.Dialog.Behavior)]
-        public bool IsVisible
-        {
-            get => _isVisible;
-            set
-            {
-                if (_isVisible == value)
-                    return;
-                _isVisible = value;
-                IsVisibleChanged.InvokeAsync(value);
-            }
-        }
+        public bool IsVisible { get; set; }
+
         private bool _isVisible;
 
         /// <summary>
@@ -127,8 +118,6 @@ namespace MudBlazor
         private bool IsInline => IsNested || DialogInstance == null;
 
         private IDialogReference _reference;
-
-        public MudDialogInstance MudDialogInstance => DialogInstance;
 
         /// <summary>
         /// Show this inlined dialog
@@ -160,11 +149,11 @@ namespace MudBlazor
             return _reference;
         }
 
-        protected override void OnAfterRender(bool firstRender)
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (IsInline)
             {
-                if (_isVisible && _reference == null)
+                if (IsVisible && _reference == null)
                 {
                     Show(); // if isVisible and we don't have any reference we need to call Show
                 }
@@ -175,8 +164,15 @@ namespace MudBlazor
                     else
                         Close(); // if we still have reference but it's not visible call Close
                 }
+
+                if (_isVisible != IsVisible)
+                {
+                    _isVisible = IsVisible;
+                    await IsVisibleChanged.InvokeAsync(IsVisible);
+                }
             }
-            base.OnAfterRender(firstRender);
+
+            await base.OnAfterRenderAsync(firstRender);
         }
 
         /// <summary>

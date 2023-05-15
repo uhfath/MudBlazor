@@ -16,6 +16,7 @@ namespace MudBlazor
         Guid Id { get; }
 
         RenderFragment RenderFragment { get; set; }
+        MudDialogInstance MudDialogInstance { get; set; }
 
         [Obsolete("This will always return true"), ExcludeFromCodeCoverage]
         bool AreParametersRendered { get => true; set { } }
@@ -35,6 +36,7 @@ namespace MudBlazor
         void InjectRenderFragment(RenderFragment rf);
 
         void InjectDialog(object inst);
+        void InjectDialogInstance(MudDialogInstance dialogInstance);
 
         Task<T> GetReturnValueAsync<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] T>();
     }

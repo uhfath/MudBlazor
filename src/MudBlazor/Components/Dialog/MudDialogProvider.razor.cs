@@ -12,7 +12,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
-using MudBlazor.Components.Dialog;
 
 namespace MudBlazor
 {
@@ -94,13 +93,10 @@ namespace MudBlazor
             return _dialogs.SingleOrDefault(x => x.Id == id);
         }
 
-        private static bool IsDialogShoudAutoCloseOnLocationChange(object dialog) =>
-            dialog is not IMudDialogInstanceGetter getter || getter.MudDialogInstance.ShouldAutoCloseOnLocationChange;
-
         private void LocationChanged(object sender, LocationChangedEventArgs args)
         {
             _dialogs
-                .Where(d => IsDialogShoudAutoCloseOnLocationChange(d.Dialog))
+                .Where(d => d.MudDialogInstance.ShouldAutoCloseOnLocationChange)
                 .ToList()
                 .ForEach(r => DismissInstance(r, DialogResult.Cancel()));
 

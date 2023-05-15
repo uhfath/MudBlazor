@@ -43,6 +43,7 @@ namespace MudBlazor
 
         public object Dialog { get; private set; }
         public RenderFragment RenderFragment { get; set; }
+        public MudDialogInstance MudDialogInstance { get; set; }
 
         public Task<DialogResult> Result => _resultCompletion.Task;
 
@@ -56,6 +57,11 @@ namespace MudBlazor
         public void InjectRenderFragment(RenderFragment rf)
         {
             RenderFragment = rf;
+        }
+
+        public void InjectDialogInstance(MudDialogInstance dialogInstance)
+        {
+            MudDialogInstance = dialogInstance;
         }
 
         public async Task<T> GetReturnValueAsync<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] T>()
