@@ -177,6 +177,7 @@ namespace MudBlazor
             ShouldAutoCloseOnLocationChange = SetAutoCloseOnLocationChange();
             
             Class = Classname;
+            BackgroundClassname = new CssBuilder("mud-overlay-dialog").AddClass(Options.ClassBackground).Build();
         }
 
         private string SetPosition()
@@ -247,6 +248,8 @@ namespace MudBlazor
                 .AddClass("mud-dialog-rtl", RightToLeft)
                 .AddClass(_dialog?.Class)
             .Build();
+
+        protected string BackgroundClassname { get; set; } = "mud-overlay-dialog";
 
         private bool SetHideHeader()
         {

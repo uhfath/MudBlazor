@@ -281,6 +281,8 @@ namespace MudBlazor
                     }
                     break;
             }
+
+            StateHasChanged();
         }
 
         private void ReturnDateBackUp()
