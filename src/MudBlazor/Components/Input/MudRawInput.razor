@@ -20,7 +20,7 @@
 
     @if (ChildContent == null)
     {
-	    <input
+	    <input id="@InputElementId"
             @ref="InputElementReference"
             class="@_inputClass"
             value="@_currentValueText"
@@ -45,7 +45,7 @@
     }
     else
     {
-        <div
+        <div id="@InputElementId"
             @ref="InputElementReference"
             class="@_inputDivClass"
             tabindex="0"

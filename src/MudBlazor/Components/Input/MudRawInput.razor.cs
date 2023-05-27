@@ -17,6 +17,7 @@ namespace MudBlazor
 {
     public partial class MudRawInput<T> : MudComponentBase
     {
+        private readonly string RawInputElementId = $"raw-input-{Guid.NewGuid()}";
 #pragma warning disable IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
         private static readonly TypeConverter TypeConverter = TypeDescriptor.GetConverter(typeof(T));
 #pragma warning restore IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
@@ -158,6 +159,8 @@ namespace MudBlazor
 
         [Parameter]
         public EditContext EditContext { get; set; }
+
+        public string InputElementId => UserAttributes.TryGetValue("id", out var _id) ? _id.ToString() : RawInputElementId;
 
         [CascadingParameter]
         private EditContext CascadingEditContext { get; set; }
