@@ -2,12 +2,12 @@
 @inherits MudComponentBase
 
 <div @attributes="UserAttributes" class="@Classname" style="@Style"
-    @onkeydown="OnKeyDown"
-    @onkeypress="OnKeyPress"
-    @onkeyup="OnKeyUp"
-    @onmousedown="OnMouseDown"
-    @onclick="OnClick"
-    @onmouseup="OnMouseUp"
+    @onkeydown="OnKeyDownInternal"
+    @onkeypress="OnKeyPressInternal"
+    @onkeyup="OnKeyUpInternal"
+    @onmousedown="OnMouseDownInternal"
+    @onclick="OnClickInternal"
+    @onmouseup="OnMouseUpInternal"
     @onkeydown:preventDefault="KeyDownPreventDefault"
     @onkeypress:preventDefault="KeyPressPreventDefault"
     @onkeyup:preventDefault="KeyUpPreventDefault"

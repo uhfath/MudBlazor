@@ -183,9 +183,6 @@ namespace MudBlazor
                 ? Size.Small
                 : Size.Medium;
 
-        private bool _buttonsDisabled =>
-            Disabled || ReadOnly;
-
         private string _containerClass =>
             MudInputCssHelper.GetClassname(this, !string.IsNullOrEmpty(CurrentInputText) || HasStartAdornments || !string.IsNullOrWhiteSpace(Placeholder));
         private string _inputClass =>
@@ -328,6 +325,11 @@ namespace MudBlazor
 
         protected virtual async Task OnClearButtonClickInternal(MouseEventArgs eventArgs)
         {
+            if (Disabled || ReadOnly)
+            {
+                return;
+            }
+
             await OnClearButtonClick.InvokeAsync(eventArgs);
             await ClearValueAsync();
             InvalidateFocus();
@@ -347,6 +349,11 @@ namespace MudBlazor
 
         protected virtual async Task OnInputInternal(ChangeEventArgs eventArgs)
         {
+            if (Disabled || ReadOnly)
+            {
+                return;
+            }
+
             await OnInput.InvokeAsync(eventArgs);
             CurrentInputText = eventArgs.Value?.ToString();
         }
@@ -355,16 +362,21 @@ namespace MudBlazor
             OnChange.InvokeAsync(eventArgs);
 
         protected virtual Task OnKeyDownInternal(KeyboardEventArgs eventArgs) =>
-            OnKeyDown.InvokeAsync(eventArgs);
-
+            (Disabled || ReadOnly)
+                ? Task.CompletedTask
+                : OnKeyDown.InvokeAsync(eventArgs);
         protected virtual Task OnKeyPressInternal(KeyboardEventArgs eventArgs) =>
-            OnKeyPress.InvokeAsync(eventArgs);
-
+            (Disabled || ReadOnly)
+                ? Task.CompletedTask
+                : OnKeyPress.InvokeAsync(eventArgs);
         protected virtual Task OnKeyUpInternal(KeyboardEventArgs eventArgs) =>
-            OnKeyUp.InvokeAsync(eventArgs);
-
+            (Disabled || ReadOnly)
+                ? Task.CompletedTask
+                : OnKeyUp.InvokeAsync(eventArgs);
         protected virtual Task OnClickInternal(MouseEventArgs eventArgs) =>
-            OnClick.InvokeAsync(eventArgs);
+            (Disabled || ReadOnly)
+                ? Task.CompletedTask
+                : OnClick.InvokeAsync(eventArgs);
 
         protected override void OnParametersSet()
         {

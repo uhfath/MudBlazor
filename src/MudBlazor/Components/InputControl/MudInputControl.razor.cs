@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using MudBlazor.Extensions;
 using MudBlazor.Utilities;
@@ -137,5 +138,30 @@ namespace MudBlazor
 
         [Parameter]
         public EventCallback<MouseEventArgs> OnMouseUp { get; set; }
+
+        private Task OnKeyDownInternal(KeyboardEventArgs eventArgs) =>
+            Disabled
+                ? Task.CompletedTask
+                : OnKeyDown.InvokeAsync(eventArgs);
+        private Task OnKeyPressInternal(KeyboardEventArgs eventArgs) =>
+            Disabled
+                ? Task.CompletedTask
+                : OnKeyPress.InvokeAsync(eventArgs);
+        private Task OnKeyUpInternal(KeyboardEventArgs eventArgs) =>
+            Disabled
+                ? Task.CompletedTask
+                : OnKeyUp.InvokeAsync(eventArgs);
+        private Task OnMouseDownInternal(MouseEventArgs eventArgs) =>
+            Disabled
+                ? Task.CompletedTask
+                : OnMouseDown.InvokeAsync(eventArgs);
+        private Task OnClickInternal(MouseEventArgs eventArgs) =>
+            Disabled
+                ? Task.CompletedTask
+                : OnClick.InvokeAsync(eventArgs);
+        private Task OnMouseUpInternal(MouseEventArgs eventArgs) =>
+            Disabled
+                ? Task.CompletedTask
+                : OnMouseUp.InvokeAsync(eventArgs);
     }
 }
