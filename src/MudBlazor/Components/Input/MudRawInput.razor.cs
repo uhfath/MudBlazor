@@ -325,11 +325,6 @@ namespace MudBlazor
 
         protected virtual async Task OnClearButtonClickInternal(MouseEventArgs eventArgs)
         {
-            if (Disabled || ReadOnly)
-            {
-                return;
-            }
-
             await OnClearButtonClick.InvokeAsync(eventArgs);
             await ClearValueAsync();
             InvalidateFocus();
