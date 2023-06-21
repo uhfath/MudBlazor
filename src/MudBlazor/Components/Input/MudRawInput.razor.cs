@@ -5,17 +5,19 @@ using System.Diagnostics.Metrics;
 using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 using MudBlazor.Components.Input;
 using MudBlazor.Extensions;
 using MudBlazor.Utilities;
 
 namespace MudBlazor
 {
-    public partial class MudRawInput<T> : MudComponentBase
+    public partial class MudRawInput<T> : MudComponentBase, IDisposable
     {
         private readonly string RawInputElementId = $"raw-input-{Guid.NewGuid()}";
 #pragma warning disable IL2026 // Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code
@@ -33,6 +35,12 @@ namespace MudBlazor
 
         [Parameter]
         public EventCallback<T> ValueChanged { get; set; }
+
+        [Parameter]
+        public int DebounceIntervalMilliseconds { get; set; }
+
+        [Parameter]
+        public int DebounceMinLength { get; set; }
 
         [Parameter]
         public FormatToStringDelegate FormatToString { get; set; }
@@ -174,6 +182,8 @@ namespace MudBlazor
         private bool _invalidateValue;
         private bool _invalidateFocus;
         private IEnumerable<MudRawAdornment> _rawAdornments;
+        private Timer _debounceTimer;
+        private bool _isDisposed;
 
         protected EditContext _currentEditContext =>
             EditContext ?? CascadingEditContext;
@@ -323,6 +333,24 @@ namespace MudBlazor
                 AdditionalAdornments ?? Enumerable.Empty<MudRawAdornment>());
         }
 
+        private void StopDebounceTimer()
+        {
+            _debounceTimer?.Dispose();
+            _debounceTimer = null;
+        }
+
+        private void StartDebounceTimer()
+        {
+            StopDebounceTimer();
+            if (DebounceIntervalMilliseconds > 0)
+            {
+                _debounceTimer = new Timer(_ => InvokeAsync(() => ForceOnChange()), null, DebounceIntervalMilliseconds, Timeout.Infinite);
+            }
+        }
+
+        private void ForceOnChange() =>
+            InputElementReference.MudDispatchEventAsync("change").AndForget();
+
         protected virtual async Task OnClearButtonClickInternal(MouseEventArgs eventArgs)
         {
             await OnClearButtonClick.InvokeAsync(eventArgs);
@@ -351,10 +379,18 @@ namespace MudBlazor
 
             await OnInput.InvokeAsync(eventArgs);
             CurrentInputText = eventArgs.Value?.ToString();
+
+            if (DebounceIntervalMilliseconds > 0 && CurrentInputText?.Length >= DebounceMinLength)
+            {
+                StartDebounceTimer();
+            }
         }
 
-        protected virtual Task OnChangeInternal(ChangeEventArgs eventArgs) =>
-            OnChange.InvokeAsync(eventArgs);
+        protected virtual Task OnChangeInternal(ChangeEventArgs eventArgs)
+        {
+            StopDebounceTimer();
+            return OnChange.InvokeAsync(eventArgs);
+        }
 
         protected virtual Task OnKeyDownInternal(KeyboardEventArgs eventArgs) =>
             (Disabled || ReadOnly)
@@ -397,6 +433,25 @@ namespace MudBlazor
                 _invalidateFocus = false;
                 await FocusAsync();
             }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_isDisposed)
+            {
+                if (disposing)
+                {
+                    StopDebounceTimer();
+                }
+
+                _isDisposed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

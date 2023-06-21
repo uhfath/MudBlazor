@@ -106,6 +106,12 @@ class MudElementReference {
         }
     }
 
+    dispatchEvent (element, event) {
+        if (element) {
+            element.dispatchEvent(new Event(event, { bubbles: true }));
+        }
+    }
+
     removeEventListener (element, event, eventId) {
         element.removeEventListener(event, this.eventListeners[eventId]);
         delete this.eventListeners[eventId];

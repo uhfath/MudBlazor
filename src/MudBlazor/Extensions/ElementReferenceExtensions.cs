@@ -49,6 +49,9 @@ namespace MudBlazor
         public static ValueTask MudChangeCssAsync(this ElementReference elementReference, string css) =>
             elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.changeCss", elementReference, css) ?? ValueTask.CompletedTask;
 
+        public static ValueTask MudDispatchEventAsync(this ElementReference elementReference, string eventName) =>
+            elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.dispatchEvent", elementReference, eventName) ?? ValueTask.CompletedTask;
+
         public static ValueTask<BoundingClientRect> MudGetBoundingClientRectAsync(this ElementReference elementReference) =>
             elementReference.GetJSRuntime()?.InvokeAsync<BoundingClientRect>("mudElementRef.getBoundingClientRect", elementReference) ?? ValueTask.FromResult(new BoundingClientRect());
 
