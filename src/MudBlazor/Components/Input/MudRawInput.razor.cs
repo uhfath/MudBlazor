@@ -212,7 +212,8 @@ namespace MudBlazor
                 .AddClass($"mud-input-adornment-{rawAdornment.Adornment.ToDescriptionString()}", rawAdornment.Adornment != Adornment.None)
                 .AddClass($"mud-text", !string.IsNullOrEmpty(rawAdornment.AdornmentText))
                 .AddClass($"mud-input-root-filled-shrink", Variant == Variant.Filled)
-                .AddClass(Class)
+                .AddClass("align-self-center")
+                .AddClass(rawAdornment.Class)
                 .Build();
 
         private bool _showClearIcon =>
