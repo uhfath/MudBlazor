@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace MudBlazor
 {
-    public partial class MudTextEditBase<T> : MudRawInput<T>, IDisposable
+    public partial class MudTextEditBase<T> : MudRawInput<T>
     {
         [Parameter]
         public string InputControlClass { get; set; }
@@ -117,8 +117,10 @@ namespace MudBlazor
         private string _errorText =>
             string.Join(Environment.NewLine, _allErrors);
 
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
+            base.Dispose(disposing);
+
             if (!_isDisposed)
             {
                 if (disposing)
@@ -174,12 +176,6 @@ namespace MudBlazor
             base.OnParametersSet();
 
             base.HasError = _hasErrors;
-        }
-
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
         }
     }
 }
