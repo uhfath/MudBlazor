@@ -220,6 +220,9 @@ namespace MudBlazor
         [Category(CategoryTypes.Table.Data)]
         public Color LoadingProgressColor { get; set; } = Color.Info;
 
+        [Parameter]
+        public Size LoadingProgressSize { get; set; } = Size.Small;
+
         /// <summary>
         /// Add MudTh cells here to define the table header. If <see cref="CustomHeader"/> is set, add one or more MudTHeadRow instead.
         /// </summary>

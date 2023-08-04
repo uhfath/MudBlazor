@@ -62,14 +62,14 @@
                                 }
                             </MudTHeadRow>
                         }
-                    @if (Loading)
-                    {
                         <tr>
-                            <th colspan="1000" class="@(CurrentPageItems.Count() > 0 || LoadingContent != null ? "mud-table-loading" : "")">
-                                <MudProgressLinear Color="@LoadingProgressColor" Class="mud-table-loading-progress" Indeterminate="true" />
+                            <th colspan="1000" class="@(CurrentPageItems.Count() > 0 || LoadingContent != null ? "mud-table-loading" : "") pa-0">
+                                @if (Loading)
+                                {
+                                    <MudProgressLinear Color="@LoadingProgressColor" Size="LoadingProgressSize" Class="mud-table-loading-progress" Indeterminate="true" />
+                                }
                             </th>
                         </tr>
-                    }
                     </thead>
                 }
                 <tbody class="mud-table-body">
@@ -138,16 +138,14 @@
                     {
                         <tr class="mud-table-empty-row">
                             <th colspan="1000" class="mud-table-empty-cell">
-                                <div Class="my-3">
-                                    @if(Loading)
-                                    {
-                                        @LoadingContent
-                                    }
-                                    else
-                                    {
-                                        @NoRecordsContent
-                                    }
-                                </div>
+                                @if(Loading)
+                                {
+                                    @LoadingContent
+                                }
+                                else
+                                {
+                                    @NoRecordsContent
+                                }
                             </th>
                         </tr>
                     }
