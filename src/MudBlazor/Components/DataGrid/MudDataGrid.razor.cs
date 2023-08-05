@@ -381,6 +381,11 @@ namespace MudBlazor
         [Parameter] public int OverscanCount { get; set; } = 3;
 
         /// <summary>
+        /// Gets the size of each item in pixels. Defaults to 50px.
+        /// </summary>
+        [Parameter] public float ItemSize { get; set; } = 50f;
+
+        /// <summary>
         /// CSS class for the table rows. Note, many CSS settings are overridden by MudTd though
         /// </summary>
         [Parameter] public string RowClass { get; set; }
@@ -1001,7 +1006,7 @@ namespace MudBlazor
         {
             var items = ServerData != null
                     ? ServerItems
-                    : Items;
+                    : FilteredItems;
 
             if (value)
                 Selection = new HashSet<T>(items);
@@ -1011,6 +1016,7 @@ namespace MudBlazor
             SelectedItemsChangedEvent?.Invoke(SelectedItems);
             SelectedAllItemsChangedEvent?.Invoke(value);
             await SelectedItemsChanged.InvokeAsync(SelectedItems);
+
             StateHasChanged();
         }
 
