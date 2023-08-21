@@ -63,7 +63,7 @@
                             </MudTHeadRow>
                         }
                         <tr>
-                            <th colspan="1000" class="@(CurrentPageItems.Count() > 0 || LoadingContent != null ? "mud-table-loading" : "") pa-0">
+                            <th colspan="1000" class="@(CurrentPageItems.Any() || LoadingContent != null ? "mud-table-loading" : "") pa-0">
                                 @if (Loading)
                                 {
                                     <MudProgressLinear Color="@LoadingProgressColor" Size="LoadingProgressSize" Class="mud-table-loading-progress" Indeterminate="true" />
@@ -85,7 +85,7 @@
                     }
                     else
                     {
-                        @if (CurrentPageItems != null && CurrentPageItems.Count() > 0)
+                        @if (CurrentPageItems != null && CurrentPageItems.Any())
                         {
                             var rowIndex = 0;
                                 <MudVirtualize IsEnabled="@Virtualize" Items="@CurrentPageItems?.ToList()" OverscanCount="@OverscanCount" ItemSize="@ItemSize" Context="item">
@@ -132,7 +132,7 @@
                             </MudVirtualize>
                         }
                     }
-                    @if(!(CurrentPageItems != null && CurrentPageItems.Count() > 0)
+                    @if(!(CurrentPageItems != null && CurrentPageItems.Any())
                         && (Loading ? LoadingContent != null : NoRecordsContent != null)
                     )
                     {
