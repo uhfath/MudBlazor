@@ -29,21 +29,19 @@
         <div class="@HelperContainer">
             <p class="@HelperClass">
                 <div class="d-flex flex-column">
-                <div class="d-flex">
-                    @if (!string.IsNullOrEmpty(CounterText))
-                    {
-                        <div class="ms-auto">
-                            @CounterText
-                        </div>
-                    }
-                    else if (!string.IsNullOrEmpty(HelperText))
-                    @if (!string.IsNullOrEmpty(HelperText))
-                    {
-                        <div class="me-auto mud-input-helper-text">
-                            @HelperText
-                        </div>
-                    }
-                    @if (!string.IsNullOrEmpty(CounterText))
+                    <div class="d-flex">
+                        @if (!string.IsNullOrEmpty(CounterText))
+                        {
+                            <div class="ms-auto">
+                                @CounterText
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(HelperText))
+                        {
+                            <div class="me-auto mud-input-helper-text">
+                                @HelperText
+                            </div>
+                        }
                     </div>
 
                     @if (Error)
