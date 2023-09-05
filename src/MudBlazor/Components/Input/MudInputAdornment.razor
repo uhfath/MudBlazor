@@ -10,13 +10,13 @@
     }
     else if (!string.IsNullOrWhiteSpace(Icon))
     {
-        @if (AdornmentClick.HasDelegate)
+        @if (ShowFocus)
         {
             <MudIconButton Icon="@Icon" OnClick="@AdornmentClick" Edge="@Edge" Size="@Size" Color="@Color" Disabled="Disabled" aria-label="@(!string.IsNullOrEmpty(AriaLabel) ? AriaLabel : "Icon Button")" tabindex="-1"/>
         }
         else
         {
-            <MudIcon Icon="@Icon" Size="@Size" Color="@Color" aria-label="@(!string.IsNullOrEmpty(AriaLabel) ? AriaLabel : "Icon")" tabindex="-1"/>
+            <MudIcon Icon="@Icon" Size="@Size" Color="@Color" @onclick="AdornmentClick" aria-label="@(!string.IsNullOrEmpty(AriaLabel) ? AriaLabel : "Icon")" tabindex="-1"/>
         }
     }
 </div>
@@ -31,6 +31,7 @@
     [Parameter] public Color Color { get; set; } = Color.Default;
     [Parameter] public string AriaLabel { get; set; }
     [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool ShowFocus { get; set; } = true;
 
     [Parameter] public EventCallback<MouseEventArgs> AdornmentClick { get; set; }
 

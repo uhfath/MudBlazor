@@ -22,5 +22,6 @@ namespace MudBlazor.Components.Input
         public string AdornmentAriaLabel { get; set; } = string.Empty;
         public Size AdornmentIconSize { get; set; } = Size.Medium;
         public EventCallback<MouseEventArgs> OnAdornmentClick { get; set; }
+        public bool ShowFocus { get; set; } = true;
     }
 }

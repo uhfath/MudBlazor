@@ -13,6 +13,7 @@
                            Text="@adornment.AdornmentText"
                            Edge="Edge.Start"
                            AdornmentClick="ReadOnly ? default : adornment.OnAdornmentClick"
+                           ShowFocus="adornment.ShowFocus"
                            Disabled="Disabled"
                            AriaLabel="@adornment.AdornmentAriaLabel" />
     }
@@ -85,6 +86,7 @@
                            Edge="Edge.End"
                            Disabled="Disabled"
                            AdornmentClick="ReadOnly ? default : adornment.OnAdornmentClick"
+                           ShowFocus="adornment.ShowFocus"
                            AriaLabel="@adornment.AdornmentAriaLabel" />
     }
 

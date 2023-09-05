@@ -103,6 +103,9 @@ namespace MudBlazor
         public Size AdornmentIconSize { get; set; } = Size.Medium;
 
         [Parameter]
+        public bool AdornmentShowFocus { get; set; } = true;
+
+        [Parameter]
         public EventCallback<MouseEventArgs> OnAdornmentClick { get; set; }
 
         [Parameter]
@@ -329,6 +332,7 @@ namespace MudBlazor
                         AdornmentColor = AdornmentColor,
                         AdornmentAriaLabel = AdornmentAriaLabel,
                         AdornmentIconSize = AdornmentIconSize,
+                        ShowFocus = AdornmentShowFocus,
                         OnAdornmentClick = OnAdornmentClick,
                     }
                 },
