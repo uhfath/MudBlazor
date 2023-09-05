@@ -112,6 +112,12 @@ namespace MudBlazor
         public IEnumerable<MudRawAdornment> AdditionalAdornments { get; set; }
 
         [Parameter]
+        public bool SelectOnFocus { get; set; }
+
+        [Parameter]
+        public bool FocusOnClear { get; set; }
+
+        [Parameter]
         public bool ShowSpinners { get; set; }
 
         [Parameter]
@@ -361,11 +367,20 @@ namespace MudBlazor
         {
             await OnClearButtonClick.InvokeAsync(eventArgs);
             await ClearValueAsync();
-            InvalidateFocus();
+
+            if (FocusOnClear)
+            {
+                InvalidateFocus();
+            }
         }
 
         protected virtual async Task OnFocusInternal(FocusEventArgs eventArgs)
         {
+            if (SelectOnFocus)
+            {
+                await InputElementReference.MudSelectAsync();
+            }
+
             await OnFocus.InvokeAsync(eventArgs);
             IsFocused = true;
         }
