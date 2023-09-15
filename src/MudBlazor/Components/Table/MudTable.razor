@@ -62,14 +62,27 @@
                                 }
                             </MudTHeadRow>
                         }
-                        <tr>
-                            <th colspan="1000" class="@(CurrentPageItems.Any() || LoadingContent != null ? "mud-table-loading" : "") pa-0">
+                        <MudTHeadRow>
+                            <th colspan="1000" class="@(CurrentPageItems.Any() || LoadingContent is not null ? "mud-table-loading" : "") pa-0">
                                 @if (Loading)
                                 {
                                     <MudProgressLinear Color="@LoadingProgressColor" Size="LoadingProgressSize" Class="mud-table-loading-progress" Indeterminate="true" />
                                 }
                             </th>
-                        </tr>
+                        </MudTHeadRow>
+                    </thead>
+                }
+                else
+                {
+                    <thead class="@HeadClassname">
+                        <MudTHeadRow>
+                            <th colspan="1000" class="@(CurrentPageItems.Any() || LoadingContent is not null ? "mud-table-loading" : "") pa-0">
+                                @if (Loading)
+                                {
+                                    <MudProgressLinear Color="@LoadingProgressColor" Size="LoadingProgressSize" Class="mud-table-loading-progress" Indeterminate="true" />
+                                }
+                            </th>
+                        </MudTHeadRow>
                     </thead>
                 }
                 <tbody class="mud-table-body">
