@@ -213,7 +213,7 @@ namespace MudBlazor
                 .AddClass("me-n1", HasEndAdornments && ShowSpinners)
                 .AddClass("mud-icon-button-edge-end", HasEndAdornments && !ShowSpinners)
                 .AddClass("me-6", !HasEndAdornments && ShowSpinners)
-                .AddClass("mud-icon-button-edge-margin-end", !HasEndAdornments && !ShowSpinners)
+                //.AddClass("mud-icon-button-edge-margin-end", !HasEndAdornments && !ShowSpinners)
                 .AddClass("align-self-center")
                 .Build();
 
