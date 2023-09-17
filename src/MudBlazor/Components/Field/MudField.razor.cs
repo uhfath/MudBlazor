@@ -103,6 +103,10 @@ namespace MudBlazor
         [Category(CategoryTypes.Field.Behavior)]
         public bool Disabled { get; set; }
 
+        [Parameter]
+        [Category(CategoryTypes.Field.Behavior)]
+        public bool Required { get; set; }
+
         /// <summary>
         /// Icon that will be used if Adornment is set to Start or End.
         /// </summary>
