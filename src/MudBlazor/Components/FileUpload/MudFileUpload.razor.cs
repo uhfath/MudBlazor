@@ -123,7 +123,7 @@ namespace MudBlazor
         /// </summary>
         [Parameter]
         [Category(CategoryTypes.FileUpload.Behavior)]
-        public int MaximumFileCount { get; set; } = 10;
+        public int? MaximumFileCount { get; set; }
 
         /// <summary>
         /// Disables the FileUpload
@@ -145,7 +145,7 @@ namespace MudBlazor
             if (GetDisabledState()) return;
             if (typeof(T) == typeof(IReadOnlyList<IBrowserFile>))
             {
-                var newFiles = args.GetMultipleFiles(MaximumFileCount);
+                var newFiles = args.GetMultipleFiles(MaximumFileCount ?? args.FileCount);
                 if (AppendMultipleFiles && _value is IReadOnlyList<IBrowserFile> oldFiles)
                 {
                     var allFiles = oldFiles.Concat(newFiles).ToList();
