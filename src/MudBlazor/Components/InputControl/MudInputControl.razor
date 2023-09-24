@@ -24,7 +24,7 @@
             </MudInputLabel>
         }
     </div>
-    @if (Error || !string.IsNullOrEmpty(HelperText) || !string.IsNullOrEmpty(CounterText))
+    @if (!string.IsNullOrEmpty(ErrorText) || !string.IsNullOrEmpty(HelperText) || !string.IsNullOrEmpty(CounterText))
     {
         <div class="@HelperContainer">
             <p class="@HelperClass">
@@ -44,7 +44,7 @@
                         }
                     </div>
 
-                    @if (Error)
+                    @if (!string.IsNullOrEmpty(ErrorText))
                     {
                         <div class="me-auto mud-input-error-text" id="@ErrorId">
                             @ErrorText
