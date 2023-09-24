@@ -73,6 +73,23 @@ label.mud-input-label.mud-input-label-inputcontrol {
         }
     }
 
+    .mud-input.focused ~ & {
+        transform: translate(0, 1.5px) scale(0.75);
+        transform-origin: top left;
+
+        &.mud-input-label-filled {
+            transform: translate(12px, 10px) scale(0.75);
+
+            &.mud-input-label-margin-dense {
+                transform: translate(12px, 7px) scale(0.75);
+            }
+        }
+
+        &.mud-input-label-outlined {
+            transform: translate(14px, -6px) scale(0.75);
+        }
+    }
+
     .mud-input:focus-within ~ &.mud-input-error {
         color: var(--mud-palette-error);
     }
