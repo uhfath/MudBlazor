@@ -62,7 +62,7 @@
                                 }
                             </MudTHeadRow>
                         }
-                        <tr>
+                        <tr class="mud-table-row">
                             <th colspan="1000" class="@(CurrentPageItems.Any() || LoadingContent is not null ? "mud-table-loading" : "") pa-0">
                                 @if (Loading)
                                 {
@@ -75,7 +75,7 @@
                 else
                 {
                     <thead class="@HeadClassname">
-                        <tr>
+                        <tr class="mud-table-row">
                             <th colspan="1000" class="@(CurrentPageItems.Any() || LoadingContent is not null ? "mud-table-loading" : "") pa-0">
                                 @if (Loading)
                                 {
