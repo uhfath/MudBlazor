@@ -6,17 +6,17 @@
 <div class="@_class">
     @if (!string.IsNullOrWhiteSpace(Text))
     {
-        <MudText Color="@Color" tabindex="-1">@Text</MudText>
+        <MudText Color="@Color" tabindex="-1" title="@ToolTip">@Text</MudText>
     }
     else if (!string.IsNullOrWhiteSpace(Icon))
     {
         @if (ShowFocus)
         {
-            <MudIconButton Icon="@Icon" OnClick="@AdornmentClick" Edge="@Edge" Size="@Size" Color="@Color" Disabled="Disabled" aria-label="@(!string.IsNullOrEmpty(AriaLabel) ? AriaLabel : "Icon Button")" tabindex="-1"/>
+            <MudIconButton Icon="@Icon" OnClick="@AdornmentClick" Edge="@Edge" Size="@Size" Color="@Color" Disabled="Disabled" aria-label="@(!string.IsNullOrEmpty(AriaLabel) ? AriaLabel : "Icon Button")" tabindex="-1" Title="@ToolTip" />
         }
         else
         {
-            <MudIcon Icon="@Icon" Size="@Size" Color="@Color" @onclick="AdornmentClick" aria-label="@(!string.IsNullOrEmpty(AriaLabel) ? AriaLabel : "Icon")" tabindex="-1"/>
+            <MudIcon Icon="@Icon" Size="@Size" Color="@Color" @onclick="AdornmentClick" aria-label="@(!string.IsNullOrEmpty(AriaLabel) ? AriaLabel : "Icon")" tabindex="-1" Title="@ToolTip" />
         }
     }
 </div>
@@ -32,6 +32,7 @@
     [Parameter] public string AriaLabel { get; set; }
     [Parameter] public bool Disabled { get; set; }
     [Parameter] public bool ShowFocus { get; set; } = true;
+    [Parameter] public string ToolTip { get; set; }
 
     [Parameter] public EventCallback<MouseEventArgs> AdornmentClick { get; set; }
 

@@ -135,6 +135,15 @@ namespace MudBlazor
         [Category(CategoryTypes.FormComponent.Appearance)]
         public Color AdornmentColor { get; set; } = Color.Default;
 
+        [Parameter]
+        public string? AdornmentToolTip { get; set; }
+
+        [Parameter]
+        public RenderFragment? StartAdornmentContent { get; set; }
+
+        [Parameter]
+        public RenderFragment? EndAdornmentContent { get; set; }
+
         /// <summary>
         /// Sets the Icon Size.
         /// </summary>
