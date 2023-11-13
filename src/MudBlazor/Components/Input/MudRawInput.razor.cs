@@ -67,6 +67,12 @@ namespace MudBlazor
         public bool DisableUnderLine { get; set; }
 
         [Parameter]
+        public bool ForceChangeOnBlur { get; set; }
+
+        [Parameter]
+        public bool ForceChangeOnEnter { get; set; }
+
+        [Parameter]
         public Variant Variant { get; set; } = Variant.Text;
 
         [Parameter]
@@ -119,6 +125,9 @@ namespace MudBlazor
 
         [Parameter]
         public bool ShowSpinners { get; set; }
+
+        [Parameter]
+        public bool HasActiveLabel { get; set; }
 
         [Parameter]
         public string SpinnerUpIcon { get; set; } = Icons.Material.Filled.KeyboardArrowUp;
@@ -175,6 +184,9 @@ namespace MudBlazor
         public EventCallback<ChangeEventArgs> OnChange { get; set; }
 
         [Parameter]
+        public EventCallback<ClipboardEventArgs> OnPaste { get; set; }
+
+        [Parameter]
         public EditContext EditContext { get; set; }
 
         public string InputElementId => UserAttributes.TryGetValue("id", out var _id) ? _id.ToString() : RawInputElementId;
@@ -203,7 +215,7 @@ namespace MudBlazor
                 : Size.Medium;
 
         private string _containerClass =>
-            MudInputCssHelper.GetClassname(this, !string.IsNullOrEmpty(CurrentInputText) || HasStartAdornments || !string.IsNullOrWhiteSpace(Placeholder));
+            MudInputCssHelper.GetClassname(this, !string.IsNullOrEmpty(CurrentInputText) || HasActiveLabel || HasStartAdornments || !string.IsNullOrWhiteSpace(Placeholder));
         private string _inputClass =>
             MudInputCssHelper.GetInputClassname(this, false);
         private string _inputDivClass =>
@@ -304,14 +316,8 @@ namespace MudBlazor
         public void InvalidateFocus() =>
             _invalidateFocus = true;
 
-        public void InvalidateValue() =>
-            _invalidateValue = true;
-
-        public virtual Task ClearValueAsync()
-        {
-            InvalidateValue();
-            return SetValueAsync(default);
-        }
+        public virtual Task ClearValueAsync() =>
+            SetValueAsync(default);
 
         public virtual async Task SetValueAsync(T value)
         {
@@ -361,7 +367,7 @@ namespace MudBlazor
         }
 
         private void ForceOnChange() =>
-            InputElementReference.MudDispatchEventAsync("change").AndForget();
+            InputElementReference.MudDispatchEvent("change");
 
         protected virtual async Task OnClearButtonClickInternal(MouseEventArgs eventArgs)
         {
@@ -389,6 +395,21 @@ namespace MudBlazor
         {
             await OnBlur.InvokeAsync(eventArgs);
             IsFocused = false;
+
+            if (ForceChangeOnBlur && !Disabled && !ReadOnly)
+            {
+                ForceOnChange();
+            }
+        }
+
+        protected virtual Task OnPasteInternal(ClipboardEventArgs eventArgs)
+        {
+            if (Disabled || ReadOnly)
+            {
+                return Task.CompletedTask;
+            }
+
+            return OnPaste.InvokeAsync(eventArgs);
         }
 
         protected virtual async Task OnInputInternal(ChangeEventArgs eventArgs)
@@ -413,10 +434,19 @@ namespace MudBlazor
             return OnChange.InvokeAsync(eventArgs);
         }
 
-        protected virtual Task OnKeyDownInternal(KeyboardEventArgs eventArgs) =>
-            (Disabled || ReadOnly)
-                ? Task.CompletedTask
-                : OnKeyDown.InvokeAsync(eventArgs);
+        protected virtual async Task OnKeyDownInternal(KeyboardEventArgs eventArgs)
+        {
+            if (!Disabled && !ReadOnly)
+            {
+                await OnKeyDown.InvokeAsync(eventArgs);
+
+                if (ForceChangeOnEnter && (eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter"))
+                {
+                    ForceOnChange();
+                }
+            }
+        }
+
         protected virtual Task OnKeyPressInternal(KeyboardEventArgs eventArgs) =>
             (Disabled || ReadOnly)
                 ? Task.CompletedTask

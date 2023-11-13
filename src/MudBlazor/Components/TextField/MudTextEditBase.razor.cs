@@ -85,7 +85,6 @@ namespace MudBlazor
         public EventCallback<MouseEventArgs> OnControlMouseUp { get; set; }
 
         private IEnumerable<string> _validationMessages = Enumerable.Empty<string>();
-        private ICollection<string> _customErrors = new List<string>();
         private bool _isDisposed;
 
         private RenderFragment RenderBaseInput() =>
@@ -102,12 +101,11 @@ namespace MudBlazor
             ErrorText?.Split(Environment.NewLine) ?? Enumerable.Empty<string>();
 
         private bool _hasErrors =>
-            Error || _validationMessages.Any() || _customErrors.Any();
+            Error || _validationMessages.Any();
 
         private IEnumerable<string> _allErrors =>
-            Error ? _errorTextLines : Enumerable.Empty<string>()
+            (Error ? _errorTextLines : Enumerable.Empty<string>())
                 .Concat(_validationMessages)
-                .Concat(_customErrors)
                 .Where(e => !string.IsNullOrWhiteSpace(e))
                 .Select(e => (ErrorTextPreProcessor?.Invoke(e) ?? e).Trim())
                 .Where(e => !string.IsNullOrWhiteSpace(e))
@@ -135,31 +133,14 @@ namespace MudBlazor
             }
         }
 
-        public void AddCustomError(string error)
-        {
-            _customErrors.Add(error);
-            StateHasChanged();
-        }
-
-        public void ClearCustomErrors()
-        {
-            _customErrors.Clear();
-            StateHasChanged();
-        }
-
         private void OnValidationStateChanged(object sender, ValidationStateChangedEventArgs e)
         {
             _validationMessages = base._currentEditContext.GetValidationMessages(base.FieldIdentifier.Value);
             StateHasChanged();
         }
 
-        protected override async Task OnInputInternal(ChangeEventArgs eventArgs)
-        {
-            await base.OnInputInternal(eventArgs);
-
-            _validationMessages = Enumerable.Empty<string>();
-            _customErrors.Clear();
-        }
+        protected override Task OnInputInternal(ChangeEventArgs eventArgs) =>
+            base.OnInputInternal(eventArgs);
 
         protected override void OnInitialized()
         {

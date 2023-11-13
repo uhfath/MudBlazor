@@ -26,6 +26,17 @@ namespace MudBlazor
 
         }
 
+        internal static IJSInProcessRuntime? GetJSInProcessRuntime(this ElementReference elementReference)
+        {
+            if (elementReference.Context is WebElementReferenceContext context)
+            {
+                return (IJSInProcessRuntime?)jsRuntimeProperty?.GetValue(context);
+            }
+
+            return null;
+
+        }
+
         public static ValueTask MudFocusFirstAsync(this ElementReference elementReference, int skip = 0, int min = 0) =>
             elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.focusFirst", elementReference, skip, min) ?? ValueTask.CompletedTask;
 
@@ -50,8 +61,8 @@ namespace MudBlazor
         public static ValueTask MudChangeCssAsync(this ElementReference elementReference, string css) =>
             elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.changeCss", elementReference, css) ?? ValueTask.CompletedTask;
 
-        public static ValueTask MudDispatchEventAsync(this ElementReference elementReference, string eventName) =>
-            elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.dispatchEvent", elementReference, eventName) ?? ValueTask.CompletedTask;
+        public static void MudDispatchEvent(this ElementReference elementReference, string eventName) =>
+            elementReference.GetJSInProcessRuntime()?.InvokeVoid("mudElementRef.dispatchEvent", elementReference, eventName);
 
         public static ValueTask<BoundingClientRect> MudGetBoundingClientRectAsync(this ElementReference elementReference) =>
             elementReference.GetJSRuntime()?.InvokeAsync<BoundingClientRect>("mudElementRef.getBoundingClientRect", elementReference) ?? ValueTask.FromResult(new BoundingClientRect());
