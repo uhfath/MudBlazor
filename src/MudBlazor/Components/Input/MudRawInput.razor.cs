@@ -205,6 +205,7 @@ namespace MudBlazor
         private IEnumerable<MudRawAdornment> _rawAdornments;
         private Timer _debounceTimer;
         private bool _isDisposed;
+        private bool _isInputDirty;
 
         protected EditContext _currentEditContext =>
             EditContext ?? CascadingEditContext;
@@ -396,7 +397,7 @@ namespace MudBlazor
             await OnBlur.InvokeAsync(eventArgs);
             IsFocused = false;
 
-            if (ForceChangeOnBlur && !Disabled && !ReadOnly)
+            if (ForceChangeOnBlur && _isInputDirty && !Disabled && !ReadOnly)
             {
                 ForceOnChange();
             }
@@ -421,6 +422,7 @@ namespace MudBlazor
 
             await OnInput.InvokeAsync(eventArgs);
             CurrentInputText = eventArgs.Value?.ToString();
+            _isInputDirty = true;
 
             if (DebounceIntervalMilliseconds > 0 && CurrentInputText?.Length >= DebounceMinLength)
             {
@@ -431,6 +433,7 @@ namespace MudBlazor
         protected virtual Task OnChangeInternal(ChangeEventArgs eventArgs)
         {
             StopDebounceTimer();
+            _isInputDirty = false;
             return OnChange.InvokeAsync(eventArgs);
         }
 
@@ -440,7 +443,7 @@ namespace MudBlazor
             {
                 await OnKeyDown.InvokeAsync(eventArgs);
 
-                if (ForceChangeOnEnter && (eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter"))
+                if (ForceChangeOnEnter && _isInputDirty && (eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter"))
                 {
                     ForceOnChange();
                 }
