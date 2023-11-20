@@ -24,7 +24,21 @@ namespace MudBlazor
         public DateTime? Date
         {
             get => _value;
-            set => SetDateAsync(value, true).AndForget();
+            set
+            {
+                if (_value != value && value.HasValue)
+                {
+                    GoToDate(value);
+                }
+
+                _value = value;
+            }
+            //set => _value = value;
+            //set
+            //{
+            //    Console.WriteLine("MudDatePicker.Date: {0} -> {1}", _value, value);
+            //    SetDateAsync(value, true).AndForget();
+            //}
         }
 
         protected async Task SetDateAsync(DateTime? date, bool updateValue)
@@ -44,16 +58,16 @@ namespace MudBlazor
                     return;
                 }
 
-                _value = date;
+                //_value = date;
                 if (updateValue)
                 {
                     Converter.GetError = false;
-                    await SetTextAsync(Converter.Set(_value), false);
+                    await SetTextAsync(Converter.Set(date), false);
                 }
-                await DateChanged.InvokeAsync(_value);
+                await DateChanged.InvokeAsync(date);
                 await BeginValidateAsync();
-                FieldChanged(_value);
-                GoToDate();
+                FieldChanged(date);
+                GoToDate(date);
             }
         }
 
@@ -83,7 +97,7 @@ namespace MudBlazor
             return b.Build();
         }
 
-        protected override async void OnDayClicked(DateTime dateTime)
+        protected override async Task OnDayClicked(DateTime dateTime)
         {
             _selectedDate = dateTime;
             if (PickerActions == null || AutoClose || PickerVariant == PickerVariant.Static)
@@ -166,7 +180,7 @@ namespace MudBlazor
                     _selectedDate.Value.Hour,
                     _selectedDate.Value.Minute,
                     _selectedDate.Value.Second,
-                    _selectedDate.Value.Millisecond);
+                _selectedDate.Value.Millisecond);
 
             await SetDateAsync(_selectedDate, true);
             _selectedDate = null;
@@ -298,11 +312,11 @@ namespace MudBlazor
         /// <summary>
         /// Scrolls to the date.
         /// </summary>
-        public void GoToDate()
+        public void GoToDate(DateTime? date)
         {
-            if (Date.HasValue)
+            if (date.HasValue)
             {
-                PickerMonth = new DateTime(Date.Value.Year, Date.Value.Month, 1);
+                PickerMonth = new DateTime(date.Value.Year, date.Value.Month, 1);
                 ScrollToYear();
             }
         }

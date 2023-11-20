@@ -236,7 +236,7 @@ namespace MudBlazor
             return b.Build();
         }
 
-        protected override async void OnDayClicked(DateTime dateTime)
+        protected override async Task OnDayClicked(DateTime dateTime)
         {
             if (_firstDate == null || _firstDate > dateTime || _secondDate != null)
             {

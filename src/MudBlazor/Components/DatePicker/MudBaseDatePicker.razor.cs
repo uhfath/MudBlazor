@@ -353,7 +353,7 @@ namespace MudBlazor
         /// <summary>
         /// User clicked on a day
         /// </summary>
-        protected abstract void OnDayClicked(DateTime dateTime);
+        protected abstract Task OnDayClicked(DateTime dateTime);
 
         /// <summary>
         /// user clicked on a month
