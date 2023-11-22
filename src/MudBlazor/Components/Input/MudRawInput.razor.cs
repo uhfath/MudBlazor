@@ -127,6 +127,9 @@ namespace MudBlazor
         public IEnumerable<MudRawAdornment> AdditionalAdornments { get; set; }
 
         [Parameter]
+        public bool AutoFocus { get; set; }
+
+        [Parameter]
         public bool SelectOnFocus { get; set; }
 
         [Parameter]
@@ -213,6 +216,7 @@ namespace MudBlazor
         private Timer _debounceTimer;
         private bool _isDisposed;
         private bool _isInputDirty;
+        private bool _wasAutoFocused;
 
         protected EditContext _currentEditContext =>
             EditContext ?? CascadingEditContext;
@@ -481,6 +485,15 @@ namespace MudBlazor
                 _previousValue = Value;
 
                 CurrentInputText = _currentValueText = GetStringFromValue(Value);
+            }
+
+            if (AutoFocus != _wasAutoFocused)
+            {
+                _wasAutoFocused = AutoFocus;
+                if (AutoFocus)
+                {
+                    InvalidateFocus();
+                }
             }
 
             InvalidateAdornments();
