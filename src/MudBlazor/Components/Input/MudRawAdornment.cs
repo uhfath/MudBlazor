@@ -15,6 +15,7 @@ namespace MudBlazor.Components.Input
     public class MudRawAdornment
     {
         public string Class { get; set; }
+        public string Style { get; set; }
         public string AdornmentIcon { get; set; }
         public string AdornmentText { get; set; }
         public Adornment Adornment { get; set; } = Adornment.None;

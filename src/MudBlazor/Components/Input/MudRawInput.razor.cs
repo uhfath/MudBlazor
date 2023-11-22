@@ -238,7 +238,7 @@ namespace MudBlazor
                 .AddClass("mud-icon-button-edge-end", HasEndAdornments && !ShowSpinners)
                 .AddClass("me-6", !HasEndAdornments && ShowSpinners)
                 //.AddClass("mud-icon-button-edge-margin-end", !HasEndAdornments && !ShowSpinners)
-                .AddClass("align-self-center")
+                .AddClass("align-self-start")
                 .Build();
 
         public string GetAdornmentClassname(MudRawAdornment rawAdornment) =>
@@ -247,7 +247,11 @@ namespace MudBlazor
                 .AddClass($"mud-text", !string.IsNullOrEmpty(rawAdornment.AdornmentText))
                 .AddClass($"mud-input-root-filled-shrink", Variant == Variant.Filled)
                 .AddClass("align-self-center")
-                .AddClass(rawAdornment.Class)
+                .Build();
+
+        public string GetAdornmentStyle(MudRawAdornment rawAdornment) =>
+            new StyleBuilder()
+                .AddStyle(rawAdornment.Style)
                 .Build();
 
         private bool _showClearIcon =>

@@ -7,6 +7,7 @@
     @foreach (var adornment in _startAdornments)
     {
         <MudInputAdornment Class="@(adornment.Class ?? GetAdornmentClassname(adornment))"
+                           Style="@GetAdornmentStyle(adornment)"
                            Icon="@adornment.AdornmentIcon"
                            Color="adornment.AdornmentColor"
                            Size="adornment.AdornmentIconSize"
@@ -99,6 +100,7 @@
     {
         <MudIconButton tabindex="-1"
                        Class="@_clearButtonClass"
+                       Style="margin-top: 4px"
                        Color="Color.Default"
                        Icon="@ClearIcon"
                        Size="Size.Small"
@@ -108,6 +110,7 @@
     @foreach (var adornment in _endAdornments)
     {
         <MudInputAdornment Class="@(adornment.Class ?? GetAdornmentClassname(adornment))"
+                           Style="@GetAdornmentStyle(adornment)"
                            Icon="@adornment.AdornmentIcon"
                            Color="adornment.AdornmentColor"
                            Size="adornment.AdornmentIconSize"
