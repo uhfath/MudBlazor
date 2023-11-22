@@ -320,15 +320,19 @@ namespace MudBlazor
         public virtual Task ClearValueAsync() =>
             SetValueAsync(default);
 
-        public virtual async Task SetValueAsync(T value)
+        public virtual void NotifyFieldValueChanged()
         {
-            await ValueChanged.InvokeAsync(value);
-
             if (_currentEditContext != null && FieldIdentifier != null)
             {
                 _currentEditContext.NotifyFieldChanged(FieldIdentifier.Value);
             }
+        }
 
+        public virtual async Task SetValueAsync(T value)
+        {
+            await ValueChanged.InvokeAsync(value);
+
+            NotifyFieldValueChanged();
             StateHasChanged();
         }
 
@@ -473,6 +477,7 @@ namespace MudBlazor
                 _previousValue = Value;
 
                 CurrentInputText = _currentValueText = GetStringFromValue(Value);
+                NotifyFieldValueChanged();
             }
 
             InvalidateAdornments();

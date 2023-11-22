@@ -33,12 +33,6 @@ namespace MudBlazor
 
                 _value = value;
             }
-            //set => _value = value;
-            //set
-            //{
-            //    Console.WriteLine("MudDatePicker.Date: {0} -> {1}", _value, value);
-            //    SetDateAsync(value, true).AndForget();
-            //}
         }
 
         protected async Task SetDateAsync(DateTime? date, bool updateValue)
