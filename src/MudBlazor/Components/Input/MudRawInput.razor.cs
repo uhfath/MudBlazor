@@ -64,6 +64,15 @@ namespace MudBlazor
         public bool FullWidth { get; set; }
 
         [Parameter]
+        public bool AutoGrow { get; set; }
+
+        [Parameter]
+        public int MaxLines { get; set; }
+
+        [Parameter]
+        public int Lines { get; set; } = 1;
+
+        [Parameter]
         public bool DisableUnderLine { get; set; }
 
         [Parameter]
@@ -169,9 +178,6 @@ namespace MudBlazor
         public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
 
         [Parameter]
-        public EventCallback<KeyboardEventArgs> OnKeyPress { get; set; }
-
-        [Parameter]
         public EventCallback<KeyboardEventArgs> OnKeyUp { get; set; }
 
         [Parameter]
@@ -201,6 +207,7 @@ namespace MudBlazor
         private string _currentValueText;
         private T _previousValue;
         private bool _invalidateValue;
+        private bool _invalidateRender;
         private bool _invalidateFocus;
         private IEnumerable<MudRawAdornment> _rawAdornments;
         private Timer _debounceTimer;
@@ -454,10 +461,6 @@ namespace MudBlazor
             }
         }
 
-        protected virtual Task OnKeyPressInternal(KeyboardEventArgs eventArgs) =>
-            (Disabled || ReadOnly)
-                ? Task.CompletedTask
-                : OnKeyPress.InvokeAsync(eventArgs);
         protected virtual Task OnKeyUpInternal(KeyboardEventArgs eventArgs) =>
             (Disabled || ReadOnly)
                 ? Task.CompletedTask
@@ -473,14 +476,35 @@ namespace MudBlazor
 
             if (!IsValueEquals(_previousValue, Value) || _invalidateValue)
             {
+                _invalidateRender = true;
                 _invalidateValue = false;
                 _previousValue = Value;
 
                 CurrentInputText = _currentValueText = GetStringFromValue(Value);
-                NotifyFieldValueChanged();
             }
 
             InvalidateAdornments();
+        }
+
+        protected override void OnAfterRender(bool firstRender)
+        {
+            if (AutoGrow)
+            {
+                if (firstRender)
+                {
+                    InputElementReference.GetJSInProcessRuntime()?.InvokeVoid("mudInputAutoGrow.initAutoGrow", InputElementReference, MaxLines);
+                }
+                else
+                {
+                    if (_invalidateRender)
+                    {
+                        _invalidateRender = false;
+                        InputElementReference.GetJSInProcessRuntime()?.InvokeVoid("mudInputAutoGrow.adjustHeight", InputElementReference);
+                    }
+                }
+            }
+
+            base.OnAfterRender(firstRender);
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

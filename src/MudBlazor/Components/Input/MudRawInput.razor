@@ -20,29 +20,57 @@
 
     @if (ChildContent == null)
     {
-        <input id="@InputElementId"
-               @ref="InputElementReference"
-               class="@_inputClass"
-               value="@_currentValueText"
-               placeholder="@Placeholder"
-               disabled="@Disabled"
-               readonly="@ReadOnly"
-               inputmode="@_inputMode"
-               type="@_inputType"
-               maxlength="@MaxLength"
-               @onpaste="OnPasteInternal"
-               @oninput="OnInputInternal"
-               @onchange="OnChangeInternal"
-               @onfocus="OnFocusInternal"
-               @onblur="OnBlurInternal"
-               @onkeydown="OnKeyDownInternal"
-               @onkeypress="OnKeyPressInternal"
-               @onkeyup="OnKeyUpInternal"
-               @onkeydown:preventDefault="KeyDownPreventDefault"
-               @onkeypress:preventDefault="KeyPressPreventDefault"
-               @onkeyup:preventDefault="KeyUpPreventDefault"
-               @onclick="OnClickInternal"
-               @attributes="UserAttributes" />
+        if (AutoGrow || Lines > 1)
+        {
+            <textarea id="@InputElementId"
+                      @ref="InputElementReference"
+                      rows="@Lines"
+                      class="@_inputClass"
+                      value="@_currentValueText"
+                      placeholder="@Placeholder"
+                      disabled="@Disabled"
+                      readonly="@ReadOnly"
+                      inputmode="@_inputMode"
+                      type="@_inputType"
+                      maxlength="@MaxLength"
+                      @onpaste="OnPasteInternal"
+                      @oninput="OnInputInternal"
+                      @onchange="OnChangeInternal"
+                      @onfocus="OnFocusInternal"
+                      @onblur="OnBlurInternal"
+                      @onkeydown="OnKeyDownInternal"
+                      @onkeyup="OnKeyUpInternal"
+                      @onkeydown:preventDefault="KeyDownPreventDefault"
+                      @onkeypress:preventDefault="KeyPressPreventDefault"
+                      @onkeyup:preventDefault="KeyUpPreventDefault"
+                      @onclick="OnClickInternal"
+                      @attributes="UserAttributes" />
+        }
+        else
+        {
+            <input id="@InputElementId"
+                   @ref="InputElementReference"
+                   class="@_inputClass"
+                   value="@_currentValueText"
+                   placeholder="@Placeholder"
+                   disabled="@Disabled"
+                   readonly="@ReadOnly"
+                   inputmode="@_inputMode"
+                   type="@_inputType"
+                   maxlength="@MaxLength"
+                   @onpaste="OnPasteInternal"
+                   @oninput="OnInputInternal"
+                   @onchange="OnChangeInternal"
+                   @onfocus="OnFocusInternal"
+                   @onblur="OnBlurInternal"
+                   @onkeydown="OnKeyDownInternal"
+                   @onkeyup="OnKeyUpInternal"
+                   @onkeydown:preventDefault="KeyDownPreventDefault"
+                   @onkeypress:preventDefault="KeyPressPreventDefault"
+                   @onkeyup:preventDefault="KeyUpPreventDefault"
+                   @onclick="OnClickInternal"
+                   @attributes="UserAttributes" />
+        }
     }
     else
     {
@@ -57,7 +85,6 @@
              @onfocus="OnFocusInternal"
              @onblur="OnBlurInternal"
              @onkeydown="OnKeyDownInternal"
-             @onkeypress="OnKeyPressInternal"
              @onkeyup="OnKeyUpInternal"
              @onkeydown:preventDefault="KeyDownPreventDefault"
              @onkeypress:preventDefault="KeyPressPreventDefault"
