@@ -142,7 +142,8 @@ namespace MudBlazor
         /// </summary>
         [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-        private string? _content;
+        private MarkupString? _content;
+        private string? _previousContent;
 
         internal Task HandleBadgeClick(MouseEventArgs e)
         {
@@ -154,24 +155,28 @@ namespace MudBlazor
 
         protected override void OnParametersSet()
         {
+            string? text = null;
+
             if (Content is string stringContent)
             {
-                _content = stringContent;
+                text = stringContent;
             }
             else if (Content is int numberContent)
             {
                 if (numberContent > Max)
                 {
-                    _content = Max + "+";
+                    text = Max + "+";
                 }
                 else
                 {
-                    _content = numberContent.ToString();
+                    text = numberContent.ToString();
                 }
             }
-            else
+
+            if (text != _previousContent)
             {
-                _content = null;
+                _previousContent = text;
+                _content = new MarkupString(text!);
             }
         }
     }
