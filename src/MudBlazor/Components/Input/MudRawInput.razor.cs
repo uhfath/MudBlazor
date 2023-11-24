@@ -52,6 +52,9 @@ namespace MudBlazor
         public FieldIdentifier? FieldIdentifier { get; set; }
 
         [Parameter]
+        public bool AutoValidate { get; set; } = true;
+
+        [Parameter]
         public bool HasError { get; set; }
 
         [Parameter]
@@ -337,7 +340,7 @@ namespace MudBlazor
 
         public virtual void NotifyFieldValueChanged()
         {
-            if (_currentEditContext != null && FieldIdentifier != null)
+            if (AutoValidate && _currentEditContext != null && FieldIdentifier != null)
             {
                 _currentEditContext.NotifyFieldChanged(FieldIdentifier.Value);
             }

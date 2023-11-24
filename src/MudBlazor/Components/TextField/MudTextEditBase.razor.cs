@@ -101,7 +101,7 @@ namespace MudBlazor
             ErrorText?.Split(Environment.NewLine) ?? Enumerable.Empty<string>();
 
         private bool _hasErrors =>
-            Error || _validationMessages.Any();
+            Error || _allErrors.Any();
 
         private IEnumerable<string> _allErrors =>
             (Error ? _errorTextLines : Enumerable.Empty<string>())
@@ -133,9 +133,9 @@ namespace MudBlazor
             }
         }
 
-        private void OnValidationStateChanged(object sender, ValidationStateChangedEventArgs e)
+        private void OnValidationStateChanged(object sender, ValidationStateChangedEventArgs _)
         {
-            _validationMessages = base._currentEditContext.GetValidationMessages(base.FieldIdentifier.Value);
+            _validationMessages = ((EditContext)sender).GetValidationMessages(base.FieldIdentifier.Value);
             StateHasChanged();
         }
 
@@ -149,6 +149,7 @@ namespace MudBlazor
             if (base._currentEditContext != null && base.FieldIdentifier != null)
             {
                 base._currentEditContext.OnValidationStateChanged += OnValidationStateChanged;
+                OnValidationStateChanged(base._currentEditContext, ValidationStateChangedEventArgs.Empty);
             }
         }
 
