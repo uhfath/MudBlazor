@@ -52,9 +52,6 @@ namespace MudBlazor
         public bool ControlKeyDownPreventDefault { get; set; }
 
         [Parameter]
-        public bool ControlKeyPressPreventDefault { get; set; }
-
-        [Parameter]
         public bool ControlKeyUpPreventDefault { get; set; }
 
         [Parameter]
