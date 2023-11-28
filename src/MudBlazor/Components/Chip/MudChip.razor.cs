@@ -23,6 +23,7 @@ namespace MudBlazor
                 .AddClass($"mud-chip-{GetVariant().ToDescriptionString()}")
                 .AddClass($"mud-chip-size-{Size.ToDescriptionString()}")
                 .AddClass($"mud-chip-color-{GetColor().ToDescriptionString()}")
+                .AddClass("mud-chip-hoverable", IsHoverable)
                 .AddClass("mud-clickable", IsClickable)
                 .AddClass("mud-ripple", IsClickable && !DisableRipple)
                 .AddClass("mud-chip-label", Label)
@@ -161,6 +162,10 @@ namespace MudBlazor
         [Parameter]
         [Category(CategoryTypes.Chip.Appearance)]
         public bool DisableRipple { get; set; }
+
+        [Parameter]
+        [Category(CategoryTypes.Chip.Appearance)]
+        public bool IsHoverable { get; set; } = true;
 
         /// <summary>
         /// Child content of component.
