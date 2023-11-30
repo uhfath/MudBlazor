@@ -31,6 +31,12 @@ namespace MudBlazor
         [Category(CategoryTypes.FocusTrap.Behavior)]
         public RenderFragment? ChildContent { get; set; }
 
+        [Parameter]
+        public EventCallback<KeyboardEventArgs> OnRootKeyDown { get; set; }
+
+        [Parameter]
+        public EventCallback<KeyboardEventArgs> OnRootKeyUp { get; set; }
+
         /// <summary>
         /// If true, the focus will no longer loop inside the component.
         /// </summary>
@@ -89,14 +95,16 @@ namespace MudBlazor
             return FocusFallbackAsync();
         }
 
-        private void OnRootKeyDown(KeyboardEventArgs args)
+        private Task OnRootKeyDownInternal(KeyboardEventArgs args)
         {
             HandleKeyEvent(args);
+            return OnRootKeyDown.InvokeAsync(args);
         }
 
-        private void OnRootKeyUp(KeyboardEventArgs args)
+        private Task OnRootKeyUpInternal(KeyboardEventArgs args)
         {
             HandleKeyEvent(args);
+            return OnRootKeyUp.InvokeAsync(args);
         }
 
         private Task OnTopFocusAsync(FocusEventArgs args)
