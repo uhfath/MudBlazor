@@ -17,7 +17,7 @@ namespace MudBlazor
         internal T _item;
         internal string? _valueString;
         internal double? _valueNumber;
-        internal bool _isEditing;
+        //internal bool _isEditing;
         internal CellContext<T> _cellContext;
 
         #region Computed Properties

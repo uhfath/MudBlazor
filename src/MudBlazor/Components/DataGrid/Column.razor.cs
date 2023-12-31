@@ -177,7 +177,7 @@ namespace MudBlazor
                 .AddClass(Class)
             .Build();
 
-        internal string cellClassname;
+        //internal string cellClassname;
         //internal string cellClassname =>
         //    new CssBuilder("mud-table-cell")
         //        .AddClass("mud-table-cell-hide", HideSmall)

@@ -11,7 +11,7 @@ namespace MudBlazor
         private bool hasBeenCommitted;
         private bool hasBeenClickedFirstTime;
 
-        internal object _itemCopy;
+        //internal object _itemCopy;
 
         protected string Classname => new CssBuilder("mud-table-row")
             .AddClass(Class).Build();
