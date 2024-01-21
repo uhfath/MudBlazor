@@ -87,6 +87,17 @@ namespace MudBlazor
                 .AddStyle("left", "0px", when: hasStickyColumns)
             .Build();
 
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+            if (ServerData != null && QuickFilter != null)
+            {
+                throw new InvalidOperationException(
+                    $"Do not supply both '{nameof(ServerData)}' and '{nameof(QuickFilter)}'."
+                );
+            }
+        }
+
         internal SortDirection GetColumnSortDirection(string columnName)
         {
             if (columnName == null)
@@ -588,6 +599,11 @@ namespace MudBlazor
                     InvokeAsync(() => SetRowsPerPageAsync(value));
             }
         }
+
+        /// <summary>
+        /// Rows Per Page two-way bindable parameter
+        /// </summary>
+        [Parameter] public EventCallback<int> RowsPerPageChanged { get; set; }
 
         /// <summary>
         /// The page index of the currently displayed page (Zero based). Usually called by MudTablePager.
@@ -1179,6 +1195,8 @@ namespace MudBlazor
 
             if (resetPage)
                 CurrentPage = 0;
+
+            await RowsPerPageChanged.InvokeAsync(_rowsPerPage.Value);
 
             StateHasChanged();
 
