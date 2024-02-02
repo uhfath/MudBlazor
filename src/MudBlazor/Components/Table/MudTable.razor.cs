@@ -178,7 +178,7 @@ namespace MudBlazor
         /// </summary>
         [Parameter] public EventCallback<TableRowClickEventArgs<TTableRow>> OnRowClick { get; set; }
 
-        internal override void FireRowClickEvent(MouseEventArgs args, MudTr row, object o)
+        internal override async Task FireRowClickEventAsync(MouseEventArgs args, MudTr row, object o)
         {
             var item = default(TTableRow);
             try
@@ -186,7 +186,7 @@ namespace MudBlazor
                 item = (TTableRow)o;
             }
             catch (Exception) { /*ignore*/}
-            OnRowClick.InvokeAsync(new TableRowClickEventArgs<TTableRow>()
+            await OnRowClick.InvokeAsync(new TableRowClickEventArgs<TTableRow>()
             {
                 MouseEventArgs = args,
                 Row = row,
@@ -198,6 +198,8 @@ namespace MudBlazor
         /// Row hover start event.
         /// </summary>
         [Parameter] public EventCallback<TableRowHoverEventArgs<TTableRow>> OnRowMouseEnter { get; set; }
+
+        internal override bool HasRowMouseEnterEventHandler => OnRowMouseEnter.HasDelegate;
 
         internal override async Task FireRowMouseEnterEventAsync(MouseEventArgs args, MudTr row, object o)
         {
@@ -219,7 +221,9 @@ namespace MudBlazor
         /// Row hover stop event.
         /// </summary>
         [Parameter] public EventCallback<TableRowHoverEventArgs<TTableRow>> OnRowMouseLeave { get; set; }
-
+        
+        internal override bool HasRowMouseLeaveEventHandler => OnRowMouseLeave.HasDelegate;
+        
         internal override async Task FireRowMouseLeaveEventAsync(MouseEventArgs args, MudTr row, object o)
         {
             var item = default(TTableRow);
