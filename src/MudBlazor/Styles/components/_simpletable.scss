@@ -47,6 +47,26 @@
             }
         }
     }
+
+    & .mud-table-borderless {
+        table {
+            * tr {
+                > td, th {
+                    border-bottom: none;
+                }
+            }
+        }
+    }
+}
+
+.mud-simple-table.mud-table-borderless {
+    & .mud-table-container table {
+        * tr {
+            > td, th {
+                border: none;
+            }
+        }
+    }
 }
 
 .mud-simple-table.mud-table-dense {

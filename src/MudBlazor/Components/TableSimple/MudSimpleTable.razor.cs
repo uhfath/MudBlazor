@@ -15,6 +15,7 @@ namespace MudBlazor
                 .AddClass($"mud-table-striped", Striped)
                 .AddClass($"mud-table-square", Square)
                 .AddClass($"mud-table-sticky-header", FixedHeader)
+                .AddClass($"mud-table-borderless", Borderless)
                 .AddClass($"mud-elevation-{Elevation}", !Outlined)
                 .AddClass(Class)
                 .Build();
@@ -60,6 +61,13 @@ namespace MudBlazor
         [Parameter]
         [Category(CategoryTypes.SimpleTable.Appearance)]
         public bool Bordered { get; set; }
+
+        /// <summary>
+        /// If true, table will not have any borders
+        /// </summary>
+        [Parameter]
+        [Category(CategoryTypes.SimpleTable.Appearance)]
+        public bool Borderless { get; set; }
 
         /// <summary>
         /// If true, striped table rows will be used.
