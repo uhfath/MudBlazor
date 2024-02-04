@@ -12,6 +12,8 @@ namespace MudBlazor
         Small,
         [Description("medium")]
         Medium,
+        [Description("big")]
+        Big,
         [Description("large")]
         Large
     }
