@@ -10,6 +10,7 @@ namespace MudBlazor
     public partial class MudTableSortLabel<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T> : MudComponentBase
     {
         protected string Classname => new CssBuilder("mud-button-root mud-table-sort-label")
+            .AddClass("mud-table-sort-label-disabled", !Enabled)
             .AddClass(Class).Build();
 
         [CascadingParameter] public TableContext TableContext { get; set; }
