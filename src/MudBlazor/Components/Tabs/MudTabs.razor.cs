@@ -45,6 +45,13 @@ namespace MudBlazor
         public bool KeepPanelsAlive { get; set; } = false;
 
         /// <summary>
+        /// If true, render all tabs and hide (display:none) every non-active.
+        /// </summary>
+        [Parameter]
+        [Category(CategoryTypes.Tabs.Behavior)]
+        public bool CachePanels { get; set; } = false;
+
+        /// <summary>
         /// If true, sets the border-radius to theme default.
         /// </summary>
         [Parameter]
@@ -234,7 +241,7 @@ namespace MudBlazor
                     if (_isRendered)
                     {
                         ActivePanel = validPanel ? _panels[value] : null;
-                        ActivePanelIndexChanged.InvokeAsync(value);
+                        ActivePanelIndexChanged.InvokeAsync(value).AndForget();
                     }
                 }
                 else if (validPanel)
