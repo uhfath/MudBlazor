@@ -88,6 +88,38 @@
 
 
 .mud-timeline-vertical {
+    & > .mud-timeline-item {
+        &.mud-timeline-align-start {
+            .mud-timeline-item-divider {
+                align-items: flex-start;
+            }
+
+            .mud-timeline-item-opposite {
+                align-self: flex-start;
+            }
+        }
+
+        &.mud-timeline-align-default {
+            .mud-timeline-item-divider {
+                align-items: center;
+            }
+
+            .mud-timeline-item-opposite {
+                align-self: center;
+            }
+        }
+
+        &.mud-timeline-align-end {
+            .mud-timeline-item-divider {
+                align-items: flex-end;
+            }
+
+            .mud-timeline-item-opposite {
+                align-self: flex-end;
+            }
+        }
+    }
+
     &.mud-timeline-align-start {
         .mud-timeline-item-divider {
             align-items: flex-start;

@@ -28,6 +28,7 @@ namespace MudBlazor
             new CssBuilder("mud-timeline-item-dot-inner")
                 .AddClass($"mud-timeline-dot-fill", Variant == Variant.Filled)
                 .AddClass($"mud-timeline-dot-{Color.ToDescriptionString()}")
+                .AddClass(DotClass)
                 .Build();
 
         [CascadingParameter]
@@ -53,6 +54,13 @@ namespace MudBlazor
         [Parameter]
         [Category(CategoryTypes.Timeline.Dot)]
         public string? DotStyle { get; set; }
+
+        /// <summary>
+        /// User classes, applied to the lineItem dot.
+        /// </summary>
+        [Parameter]
+        [Category(CategoryTypes.Timeline.Dot)]
+        public string? DotClass { get; set; }
 
         /// <summary>
         /// Color of the dot.
