@@ -80,6 +80,8 @@ namespace MudBlazor.Utilities
         /// <returns></returns>
         public StyleBuilder AddStyle(string prop, Func<string> value, bool when = true) => when ? this.AddStyle(prop, value()) : this;
 
+        public StyleBuilder AddStyle(Func<string> propValue, bool when = true) => when ? this.AddStyle(propValue()) : this;
+
         /// <summary>
         /// Adds a conditional in-line style to the builder with space separator and closing semicolon..
         /// </summary>
