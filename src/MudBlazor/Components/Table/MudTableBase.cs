@@ -192,6 +192,10 @@ namespace MudBlazor
         [Category(CategoryTypes.Table.Selecting)]
         public bool MultiSelection { get; set; }
 
+        [Parameter]
+        [Category(CategoryTypes.Table.Selecting)]
+        public Color CheckBoxColor { get; set; }
+
         /// <summary>
         /// When <c>true</c>, a row-click also toggles the checkbox state.
         /// </summary>

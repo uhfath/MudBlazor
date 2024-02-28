@@ -20,6 +20,9 @@ namespace MudBlazor
         protected string ActionsStylename => new StyleBuilder()
             .AddStyle("padding-left", "34px", IsExpandable).Build();
 
+        protected string CheckableCellStylename => new StyleBuilder()
+            .AddStyle("width", "0", IsCheckable).Build();
+
 
         [CascadingParameter] public TableContext Context { get; set; }
 
@@ -28,6 +31,7 @@ namespace MudBlazor
         [Parameter] public object Item { get; set; }
 
         [Parameter] public bool IsCheckable { get; set; }
+        [Parameter] public Color CheckBoxColor { get; set; }
 
         [Parameter] public bool IsEditable { get; set; }
 
