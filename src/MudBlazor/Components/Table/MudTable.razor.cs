@@ -308,8 +308,9 @@ namespace MudBlazor
                 }
                 else
                     Context.Selection = value;
-                SelectedItemsChanged.InvokeAsync(Context.Selection);
-                InvokeAsync(StateHasChanged);
+                
+                SelectedItemsChanged.InvokeAsync(Context.Selection).AndForget();
+                StateHasChanged();
             }
         }
 
@@ -494,7 +495,7 @@ namespace MudBlazor
             return FilteredItems?.Contains(t) ?? false;
         }
 
-        public override void UpdateSelection() => SelectedItemsChanged.InvokeAsync(SelectedItems);
+        public override void UpdateSelection() => SelectedItemsChanged.InvokeAsync(SelectedItems).AndForget();
 
         public override TableContext TableContext
         {
@@ -516,8 +517,7 @@ namespace MudBlazor
             else
                 Context.Selection.Remove(item);
 
-            if (SelectedItemsChanged.HasDelegate)
-                SelectedItemsChanged.InvokeAsync(SelectedItems);
+            SelectedItemsChanged.InvokeAsync(SelectedItems).AndForget();
         }
 
         internal override void OnHeaderCheckboxClicked(bool checkedState)
@@ -531,9 +531,7 @@ namespace MudBlazor
                 Context.Selection.Clear();
 
             Context.UpdateRowCheckBoxes();
-
-            if (SelectedItemsChanged.HasDelegate)
-                SelectedItemsChanged.InvokeAsync(SelectedItems);
+            SelectedItemsChanged.InvokeAsync(SelectedItems).AndForget();
         }
 
         /// <summary>
@@ -639,8 +637,7 @@ namespace MudBlazor
 
             Context.UpdateRowCheckBoxes();
 
-            if (SelectedItemsChanged.HasDelegate)
-                SelectedItemsChanged.InvokeAsync(SelectedItems);
+            SelectedItemsChanged.InvokeAsync(SelectedItems).AndForget();
         }
 
         public void ExpandAllGroups()
