@@ -194,7 +194,11 @@ namespace MudBlazor
 
         [Parameter]
         [Category(CategoryTypes.Table.Selecting)]
-        public Color CheckBoxColor { get; set; }
+        public Color CheckBoxColor { get; set; } = Color.Default;
+
+        [Parameter]
+        [Category(CategoryTypes.Table.Selecting)]
+        public Color? CheckBoxUncheckedColor { get; set; }
 
         /// <summary>
         /// When <c>true</c>, a row-click also toggles the checkbox state.

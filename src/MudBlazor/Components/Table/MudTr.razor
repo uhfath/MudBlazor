@@ -40,7 +40,7 @@
             <div class="d-flex" style="@ActionsStylename">
                 @if (IsCheckable)
                 {
-                    <MudCheckBox @bind-Value="IsChecked" StopClickPropagation="true" Class="mud-table-cell-checkbox" Color="CheckBoxColor"></MudCheckBox>
+                    <MudCheckBox @bind-Value="IsChecked" StopClickPropagation="true" Class="mud-table-cell-checkbox" Color="CheckBoxColor" UnCheckedColor="CheckBoxUncheckedColor" />
                 }
             </div>
         </MudElement>

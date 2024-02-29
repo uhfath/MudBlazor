@@ -31,7 +31,8 @@ namespace MudBlazor
         [Parameter] public object Item { get; set; }
 
         [Parameter] public bool IsCheckable { get; set; }
-        [Parameter] public Color CheckBoxColor { get; set; }
+        [Parameter] public Color CheckBoxColor { get; set; } = Color.Default;
+        [Parameter] public Color? CheckBoxUncheckedColor { get; set; }
 
         [Parameter] public bool IsEditable { get; set; }
 
