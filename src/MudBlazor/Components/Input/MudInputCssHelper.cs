@@ -9,8 +9,8 @@ namespace MudBlazor
         public static string GetClassname<T>(MudRawInput<T> rawInput, bool shrinkWhen) =>
             new CssBuilder("mud-input")
                 .AddClass($"mud-input-{rawInput.Variant.ToDescriptionString()}")
-                .AddClass($"mud-input-adorned-start", rawInput.HasStartAdornments)
-                .AddClass($"mud-input-adorned-end", rawInput.HasEndAdornments)
+                .AddClass("mud-input-adorned-start", rawInput.HasStartAdornments)
+                .AddClass("mud-input-adorned-end", rawInput.HasEndAdornments)
                 .AddClass($"mud-input-margin-{rawInput.Margin.ToDescriptionString()}", when: () => rawInput.Margin != Margin.None)
                 .AddClass("mud-input-underline", when: () => rawInput.DisableUnderLine == false && rawInput.Variant != Variant.Outlined)
                 .AddClass("mud-shrink", shrinkWhen)
@@ -36,8 +36,8 @@ namespace MudBlazor
             new CssBuilder("mud-input-slot")
                 .AddClass("mud-input-root")
                 .AddClass($"mud-input-root-{rawInput.Variant.ToDescriptionString()}")
-                .AddClass($"mud-input-adorned-start", rawInput.HasStartAdornments)
-                .AddClass($"mud-input-adorned-end", rawInput.HasEndAdornments)
+                .AddClass("mud-input-adorned-start", rawInput.HasStartAdornments)
+                .AddClass("mud-input-adorned-end", rawInput.HasEndAdornments)
                 .AddClass($"mud-input-root-margin-{rawInput.Margin.ToDescriptionString()}", when: () => rawInput.Margin != Margin.None)
                 .AddClass("mud-input-placeholder", isDiv)
                 .AddClass(rawInput.Class)
@@ -55,7 +55,7 @@ namespace MudBlazor
         public static string GetAdornmentClassname<T>(MudBaseInput<T> baseInput) =>
             new CssBuilder("mud-input-adornment")
                 .AddClass($"mud-input-adornment-{baseInput.Adornment.ToDescriptionString()}", baseInput.Adornment != Adornment.None)
-                .AddClass($"mud-text", !string.IsNullOrEmpty(baseInput.AdornmentText))
+                .AddClass("mud-text", !string.IsNullOrEmpty(baseInput.AdornmentText))
                 .AddClass($"mud-input-root-filled-shrink", baseInput.Variant == Variant.Filled)
                 .AddClass(baseInput.Class)
                 .Build();
