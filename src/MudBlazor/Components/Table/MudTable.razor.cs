@@ -318,7 +318,7 @@ namespace MudBlazor
         /// Checks if the row is selected.
         /// If there is set a Comparer, uses the comparer, otherwise uses a direct contains
         /// </summary>
-        protected bool IsCheckedRow(T item) 
+        protected bool IsCheckedRow(TTableRow item) 
             => _comparer != null ? Context.Selection.Any(x => _comparer.Equals(x, item)) : Context.Selection.Contains(item);
 
         /// <summary>
