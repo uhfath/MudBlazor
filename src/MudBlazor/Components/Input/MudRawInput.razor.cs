@@ -130,6 +130,9 @@ namespace MudBlazor
         public IEnumerable<MudRawAdornment> AdditionalAdornments { get; set; }
 
         [Parameter]
+        public HorizontalAlignment HorizontalAlignment { get; set; } = HorizontalAlignment.Start;
+
+        [Parameter]
         public bool AutoFocus { get; set; }
 
         [Parameter]
@@ -232,6 +235,17 @@ namespace MudBlazor
             MudInputCssHelper.GetInputClassname(this, false);
         private string _inputDivClass =>
             MudInputCssHelper.GetInputClassname(this, true);
+
+        private string _inputStyle => new StyleBuilder()
+            .AddStyle("text-align", HorizontalAlignment.ToDescriptionString())
+            .AddStyle(Style)
+            .Build();
+
+        private string _inputDivStyle => new StyleBuilder()
+            .AddStyle("text-align", HorizontalAlignment.ToDescriptionString())
+            .AddStyle(Style)
+            .Build();
+
         private string _clearButtonClass =>
             new CssBuilder()
                 .AddClass("me-n1", HasEndAdornments && ShowSpinners)
