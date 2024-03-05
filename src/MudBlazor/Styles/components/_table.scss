@@ -202,6 +202,7 @@
                 }
             }
         }
+
         & .mud-table-container .mud-table-root .mud-table-head.table-head-bordered {
             & .mud-table-row {
                 .mud-table-cell:only-child {
@@ -565,7 +566,7 @@
                 margin-inline-start: auto;
             }
         }
-        
+
         &.mud-table-bordered {
             & .mud-table-container .mud-table-root colgroup ~ .mud-table-body {
                 & .mud-table-row {
