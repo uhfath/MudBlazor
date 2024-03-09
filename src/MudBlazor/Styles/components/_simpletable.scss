@@ -1,4 +1,4 @@
-﻿
+
 .mud-simple-table {
 
     table {
@@ -79,7 +79,7 @@
 
 .mud-simple-table.mud-table-hover {
     & .mud-table-container table tbody {
-        & tr:hover {
+        & tr:hover:not(.mud-table-hover-exclude) {
             background-color: var(--mud-palette-table-hover);
         }
     }
@@ -109,7 +109,7 @@
 
 .mud-simple-table.mud-table-hover.mud-table-striped {
     & .mud-table-container table tbody {
-        & tr:nth-of-type(odd):nth-of-type(odd):hover {
+        & tr:nth-of-type(odd):nth-of-type(odd):hover:not(.mud-table-hover-exclude) {
             background-color: var(--mud-palette-table-hover);
         }
     }
