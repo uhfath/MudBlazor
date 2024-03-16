@@ -67,8 +67,14 @@ namespace MudBlazor
         public static ValueTask MudRestoreFocusToPreviousAsync(this ElementReference elementReference) =>
             elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.restoreFocusToPrevious", elementReference) ?? ValueTask.CompletedTask;
 
+        public static ValueTask MudRestoreFocusToPreviousAsync(this ElementReference elementReference, ElementReference fromElementReference) =>
+            elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.restoreFocusToPrevious", elementReference, fromElementReference) ?? ValueTask.CompletedTask;
+
         public static ValueTask MudRestoreFocusToNextAsync(this ElementReference elementReference) =>
             elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.restoreFocusToNext", elementReference) ?? ValueTask.CompletedTask;
+
+        public static ValueTask MudRestoreFocusToNextAsync(this ElementReference elementReference, ElementReference fromElementReference) =>
+            elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.restoreFocusToNext", elementReference, fromElementReference) ?? ValueTask.CompletedTask;
 
         public static ValueTask MudBlurAsync(this ElementReference elementReference) =>
             elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.blur", elementReference) ?? ValueTask.CompletedTask;

@@ -17,6 +17,21 @@ window.getTabbableElements = (element) => {
     );
 };
 
+window.getAllTabbableElements = (element) => {
+    return element.querySelectorAll(
+        "a[href]," +
+        "area[href]," +
+        "button:not([disabled])," +
+        "input:not([disabled]):not([type='hidden'])," +
+        "select:not([disabled])," +
+        "textarea:not([disabled])," +
+        "iframe," +
+        "details," +
+        "[tabindex]," +
+        "[contentEditable=true]"
+    );
+};
+
 //from: https://github.com/RemiBou/BrowserInterop
 window.serializeParameter = (data, spec) => {
     if (typeof data == "undefined" ||

@@ -20,7 +20,9 @@
     </div>
 
     <div tabindex="-1">
-        @ChildContent
+        <CascadingValue IsFixed="true" Value="this">
+            @ChildContent
+        </CascadingValue>
     </div>
 
     <div @ref="_lastBumper"

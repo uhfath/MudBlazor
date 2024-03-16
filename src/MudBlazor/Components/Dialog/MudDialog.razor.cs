@@ -119,6 +119,10 @@ namespace MudBlazor
         [Category(CategoryTypes.Dialog.Behavior)]
         public AutoRestoreFocus AutoRestoreFocus { get; set; } = AutoRestoreFocus.Last;
 
+        [Parameter]
+        [Category(CategoryTypes.FocusTrap.Behavior)]
+        public MudFocusTrap ParentMudFocusTrap { get; set; }
+
         private bool IsInline => IsNested || DialogInstance == null;
 
         private IDialogReference _reference;

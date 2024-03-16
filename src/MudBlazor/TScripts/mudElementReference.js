@@ -46,20 +46,36 @@ class MudElementReference {
     focusPrevious (element, from) {
         if (element)
         {
-            const tabbables = [...getTabbableElements(element)];
+            const tabbables = [...getAllTabbableElements(element)];
             const current = tabbables.indexOf(from || document.activeElement);
-            const previous = (current === 0 || current === -1) ? tabbables.length - 1 : current - 1;
-            tabbables[previous].focus();
+            let previous = (current === 0 || current === -1) ? tabbables.length - 1 : current - 1;
+
+            previous = tabbables.slice(0, previous + 1).findLastIndex((e) => e.tabIndex >= 0);
+            if (previous === -1) {
+                previous = tabbables.findLastIndex((e) => e.tabIndex >= 0);
+            }
+
+            if (previous >= 0) {
+                tabbables[previous].focus();
+            }
         }
     }
 
     focusNext (element, from) {
         if (element)
         {
-            const tabbables = [...getTabbableElements(element)];
+            const tabbables = [...getAllTabbableElements(element)];
             const current = tabbables.indexOf(from || document.activeElement);
-            const next = (current === tabbables.length || current === -1) ? 0 : current + 1;
-            tabbables[next].focus();
+            let next = (current === tabbables.length || current === -1) ? 0 : current + 1;
+
+            next = tabbables.slice(next).findIndex((e) => e.tabIndex >= 0);
+            if (next === -1) {
+                next = tabbables.findIndex((e) => e.tabIndex >= 0);
+            }
+
+            if (next >= 0) {
+                tabbables[next].focus();
+            }
         }
     }
 
@@ -79,30 +95,33 @@ class MudElementReference {
     restoreFocus (element) {
         if (element)
         {
-            const previous = element['mudblazor_savedFocus'];
+            const saved = element['mudblazor_savedFocus'];
             this.clearSavedFocus(element);
-            if (previous)
-                previous.focus();
+
+            if (saved)
+                saved.focus();
         }
     }
 
-    restoreFocusToPrevious (element) {
+    restoreFocusToPrevious (element, from) {
         if (element)
         {
-            const previous = element['mudblazor_savedFocus'];
+            const saved = element['mudblazor_savedFocus'];
             this.clearSavedFocus(element);
-            if (previous)
-                this.focusPrevious(document, previous);
+
+            if (saved)
+                this.focusPrevious(from || document, saved);
         }
     }
 
-    restoreFocusToNext (element) {
+    restoreFocusToNext (element, from) {
         if (element)
         {
-            const previous = element['mudblazor_savedFocus'];
+            const saved = element['mudblazor_savedFocus'];
             this.clearSavedFocus(element);
-            if (previous)
-                this.focusNext(document, previous);
+
+            if (saved)
+                this.focusNext(from || document, saved);
         }
     }
 

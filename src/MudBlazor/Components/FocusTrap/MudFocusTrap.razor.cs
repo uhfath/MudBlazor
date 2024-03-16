@@ -67,7 +67,17 @@ namespace MudBlazor
         [Category(CategoryTypes.FocusTrap.Behavior)]
         public AutoRestoreFocus AutoRestoreFocus { get; set; } = AutoRestoreFocus.Last;
 
+        [Parameter]
+        [Category(CategoryTypes.FocusTrap.Behavior)]
+        public MudFocusTrap? ParentMudFocusTrap { get; set; }
+
+        [CascadingParameter]
+        private MudFocusTrap? ParentMudFocusTrapCascading { get; set; }
+
         private string TrapTabIndex => Disabled ? "-1" : "0";
+
+        private MudFocusTrap? _currentParentMudFocusTrap =>
+            ParentMudFocusTrap ?? ParentMudFocusTrapCascading;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -166,14 +176,14 @@ namespace MudBlazor
             return _root.MudClearSavedFocusAsync().AsTask();
         }
 
-        private Task RestoreFocusToPreviousAsync()
+        private Task RestoreFocusToPreviousAsync(ElementReference? fromElementReference)
         {
-            return _root.MudRestoreFocusToPreviousAsync().AsTask();
+            return (fromElementReference == null ? _root.MudRestoreFocusToPreviousAsync() : _root.MudRestoreFocusToPreviousAsync(fromElementReference.Value)).AsTask();
         }
 
-        private Task RestoreFocusToNextAsync()
+        private Task RestoreFocusToNextAsync(ElementReference? fromElementReference)
         {
-            return _root.MudRestoreFocusToNextAsync().AsTask();
+            return (fromElementReference == null ? _root.MudRestoreFocusToNextAsync() : _root.MudRestoreFocusToNextAsync(fromElementReference.Value)).AsTask();
         }
 
         private Task SaveFocusAsync()
@@ -193,11 +203,6 @@ namespace MudBlazor
             return false;
         }
 
-        public ValueTask FocusNextAsync()
-        {
-            return _root.MudFocusNextAsync();
-        }
-
         public void Dispose()
         {
             if (!_disabled)
@@ -213,11 +218,11 @@ namespace MudBlazor
                         break;
 
                     case AutoRestoreFocus.Previous:
-                        RestoreFocusToPreviousAsync().AndForget(ignoreExceptions: true);
+                        RestoreFocusToPreviousAsync(_currentParentMudFocusTrap?._root).AndForget(ignoreExceptions: true);
                         break;
 
                     case AutoRestoreFocus.Next:
-                        RestoreFocusToNextAsync().AndForget(ignoreExceptions: true);
+                        RestoreFocusToNextAsync(_currentParentMudFocusTrap?._root).AndForget(ignoreExceptions: true);
                         break;
                 }
             }
