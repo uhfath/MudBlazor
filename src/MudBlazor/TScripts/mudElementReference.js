@@ -51,9 +51,7 @@ class MudElementReference {
             let previous = (current === 0 || current === -1) ? tabbables.length - 1 : current - 1;
 
             previous = tabbables.slice(0, previous + 1).findLastIndex((e) => e.tabIndex >= 0);
-            if (previous === -1) {
-                previous = tabbables.findLastIndex((e) => e.tabIndex >= 0);
-            }
+            previous = previous === -1 ? previous = tabbables.findLastIndex((e) => e.tabIndex >= 0) : previous;
 
             if (previous >= 0) {
                 tabbables[previous].focus();
@@ -68,10 +66,9 @@ class MudElementReference {
             const current = tabbables.indexOf(from || document.activeElement);
             let next = (current === tabbables.length || current === -1) ? 0 : current + 1;
 
-            next = tabbables.slice(next).findIndex((e) => e.tabIndex >= 0);
-            if (next === -1) {
-                next = tabbables.findIndex((e) => e.tabIndex >= 0);
-            }
+            const offset = next;
+            next = tabbables.slice(offset).findIndex((e) => e.tabIndex >= 0);
+            next = next === -1 ? tabbables.findIndex((e) => e.tabIndex >= 0) : next + offset;
 
             if (next >= 0) {
                 tabbables[next].focus();
