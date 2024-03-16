@@ -43,11 +43,32 @@ namespace MudBlazor
         public static ValueTask MudFocusLastAsync(this ElementReference elementReference, int skip = 0, int min = 0) =>
             elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.focusLast", elementReference, skip, min) ?? ValueTask.CompletedTask;
 
+        public static ValueTask MudFocusPreviousAsync(this ElementReference elementReference) =>
+            elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.focusPrevious", elementReference) ?? ValueTask.CompletedTask;
+
+        public static ValueTask MudFocusPreviousAsync(this ElementReference elementReference, ElementReference fromElementReference) =>
+            elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.focusPrevious", elementReference, fromElementReference) ?? ValueTask.CompletedTask;
+
+        public static ValueTask MudFocusNextAsync(this ElementReference elementReference) =>
+            elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.focusNext", elementReference) ?? ValueTask.CompletedTask;
+
+        public static ValueTask MudFocusNextAsync(this ElementReference elementReference, ElementReference fromElementReference) =>
+            elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.focusNext", elementReference, fromElementReference) ?? ValueTask.CompletedTask;
+
         public static ValueTask MudSaveFocusAsync(this ElementReference elementReference) =>
             elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.saveFocus", elementReference) ?? ValueTask.CompletedTask;
 
+        public static ValueTask MudClearSavedFocusAsync(this ElementReference elementReference) =>
+            elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.clearSavedFocus", elementReference) ?? ValueTask.CompletedTask;
+
         public static ValueTask MudRestoreFocusAsync(this ElementReference elementReference) =>
             elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.restoreFocus", elementReference) ?? ValueTask.CompletedTask;
+
+        public static ValueTask MudRestoreFocusToPreviousAsync(this ElementReference elementReference) =>
+            elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.restoreFocusToPrevious", elementReference) ?? ValueTask.CompletedTask;
+
+        public static ValueTask MudRestoreFocusToNextAsync(this ElementReference elementReference) =>
+            elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.restoreFocusToNext", elementReference) ?? ValueTask.CompletedTask;
 
         public static ValueTask MudBlurAsync(this ElementReference elementReference) =>
             elementReference.GetJSRuntime()?.InvokeVoidAsync("mudElementRef.blur", elementReference) ?? ValueTask.CompletedTask;

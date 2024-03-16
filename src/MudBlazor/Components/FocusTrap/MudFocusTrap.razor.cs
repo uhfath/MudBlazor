@@ -63,6 +63,10 @@ namespace MudBlazor
         [Category(CategoryTypes.FocusTrap.Behavior)]
         public DefaultFocus DefaultFocus { get; set; } = DefaultFocus.FirstChild;
 
+        [Parameter]
+        [Category(CategoryTypes.FocusTrap.Behavior)]
+        public AutoRestoreFocus AutoRestoreFocus { get; set; } = AutoRestoreFocus.Last;
+
         private string TrapTabIndex => Disabled ? "-1" : "0";
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -157,6 +161,21 @@ namespace MudBlazor
             return _root.MudRestoreFocusAsync().AsTask();
         }
 
+        private Task ClearSavedFocusAsync()
+        {
+            return _root.MudClearSavedFocusAsync().AsTask();
+        }
+
+        private Task RestoreFocusToPreviousAsync()
+        {
+            return _root.MudRestoreFocusToPreviousAsync().AsTask();
+        }
+
+        private Task RestoreFocusToNextAsync()
+        {
+            return _root.MudRestoreFocusToNextAsync().AsTask();
+        }
+
         private Task SaveFocusAsync()
         {
             return _root.MudSaveFocusAsync().AsTask();
@@ -174,11 +193,33 @@ namespace MudBlazor
             return false;
         }
 
+        public ValueTask FocusNextAsync()
+        {
+            return _root.MudFocusNextAsync();
+        }
+
         public void Dispose()
         {
             if (!_disabled)
             {
-                RestoreFocusAsync().AndForget(ignoreExceptions:true);
+                switch (AutoRestoreFocus)
+                {
+                    case AutoRestoreFocus.None:
+                        ClearSavedFocusAsync().AndForget(ignoreExceptions: true);
+                        break;
+
+                    case AutoRestoreFocus.Last:
+                        RestoreFocusAsync().AndForget(ignoreExceptions: true);
+                        break;
+
+                    case AutoRestoreFocus.Previous:
+                        RestoreFocusToPreviousAsync().AndForget(ignoreExceptions: true);
+                        break;
+
+                    case AutoRestoreFocus.Next:
+                        RestoreFocusToNextAsync().AndForget(ignoreExceptions: true);
+                        break;
+                }
             }
         }
     }

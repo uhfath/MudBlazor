@@ -24,7 +24,7 @@ class MudElementReference {
     focusFirst (element, skip = 0, min = 0) {
         if (element)
         {
-            let tabbables = getTabbableElements(element);
+            const tabbables = getTabbableElements(element);
             if (tabbables.length <= min)
                 element.focus();
             else
@@ -35,11 +35,31 @@ class MudElementReference {
     focusLast (element, skip = 0, min = 0) {
         if (element)
         {
-            let tabbables = getTabbableElements(element);
+            const tabbables = getTabbableElements(element);
             if (tabbables.length <= min)
                 element.focus();
             else
                 tabbables[tabbables.length - skip - 1].focus();
+        }
+    }
+
+    focusPrevious (element, from) {
+        if (element)
+        {
+            const tabbables = [...getTabbableElements(element)];
+            const current = tabbables.indexOf(from || document.activeElement);
+            const previous = (current === 0 || current === -1) ? tabbables.length - 1 : current - 1;
+            tabbables[previous].focus();
+        }
+    }
+
+    focusNext (element, from) {
+        if (element)
+        {
+            const tabbables = [...getTabbableElements(element)];
+            const current = tabbables.indexOf(from || document.activeElement);
+            const next = (current === tabbables.length || current === -1) ? 0 : current + 1;
+            tabbables[next].focus();
         }
     }
 
@@ -50,13 +70,39 @@ class MudElementReference {
         }
     }
 
+    clearSavedFocus (element) {
+        if (element) {
+            delete element['mudblazor_savedFocus']
+        }
+    }
+
     restoreFocus (element) {
         if (element)
         {
-            let previous = element['mudblazor_savedFocus'];
-            delete element['mudblazor_savedFocus']
+            const previous = element['mudblazor_savedFocus'];
+            this.clearSavedFocus(element);
             if (previous)
                 previous.focus();
+        }
+    }
+
+    restoreFocusToPrevious (element) {
+        if (element)
+        {
+            const previous = element['mudblazor_savedFocus'];
+            this.clearSavedFocus(element);
+            if (previous)
+                this.focusPrevious(document, previous);
+        }
+    }
+
+    restoreFocusToNext (element) {
+        if (element)
+        {
+            const previous = element['mudblazor_savedFocus'];
+            this.clearSavedFocus(element);
+            if (previous)
+                this.focusNext(document, previous);
         }
     }
 
@@ -64,7 +110,7 @@ class MudElementReference {
         if (element)
         {
             if (element.createTextRange) {
-                let selRange = element.createTextRange();
+                const selRange = element.createTextRange();
                 selRange.collapse(true);
                 selRange.moveStart('character', pos1);
                 selRange.moveEnd('character', pos2);
@@ -89,7 +135,7 @@ class MudElementReference {
     getBoundingClientRect(element) {
         if (!element) return;
 
-        var rect = JSON.parse(JSON.stringify(element.getBoundingClientRect()));
+        const rect = JSON.parse(JSON.stringify(element.getBoundingClientRect()));
 
         rect.scrollY = window.scrollY || document.documentElement.scrollTop;
         rect.scrollX = window.scrollX || document.documentElement.scrollLeft;
@@ -118,7 +164,7 @@ class MudElementReference {
     }
 
     addDefaultPreventingHandler(element, eventName) {
-        let listener = function(e) {
+        const listener = function(e) {
             e.preventDefault();
         }
         element.addEventListener(eventName, listener, { passive: false });
@@ -131,10 +177,10 @@ class MudElementReference {
     }
 
     addDefaultPreventingHandlers(element, eventNames) {
-        let listeners = [];
+        const listeners = [];
 
         for (const eventName of eventNames) {
-            let listenerId = this.addDefaultPreventingHandler(element, eventName);
+            const listenerId = this.addDefaultPreventingHandler(element, eventName);
             listeners.push(listenerId);
         }
 
@@ -142,7 +188,7 @@ class MudElementReference {
     }
 
     removeDefaultPreventingHandlers(element, eventNames, listenerIds) {
-        for (let index = 0; index < eventNames.length; ++index) {
+        for (const index = 0; index < eventNames.length; ++index) {
             const eventName = eventNames[index];
             const listenerId = listenerIds[index];
             this.removeDefaultPreventingHandler(element, eventName, listenerId);
