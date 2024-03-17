@@ -13,9 +13,9 @@
                            Size="adornment.AdornmentIconSize"
                            Text="@adornment.AdornmentText"
                            Edge="Edge.Start"
-                           AdornmentClick="ReadOnly ? default : adornment.OnAdornmentClick"
+                           AdornmentClick="(ReadOnly || Disabled || adornment.Disabled) ? default : adornment.OnAdornmentClick"
                            ShowFocus="adornment.ShowFocus"
-                           Disabled="Disabled"
+                           Disabled="adornment.Disabled || Disabled"
                            AriaLabel="@adornment.AdornmentAriaLabel" />
     }
 
@@ -116,8 +116,8 @@
                            Size="adornment.AdornmentIconSize"
                            Text="@adornment.AdornmentText"
                            Edge="Edge.End"
-                           Disabled="Disabled"
-                           AdornmentClick="ReadOnly ? default : adornment.OnAdornmentClick"
+                           Disabled="adornment.Disabled || Disabled"
+                           AdornmentClick="(ReadOnly || Disabled || adornment.Disabled) ? default : adornment.OnAdornmentClick"
                            ShowFocus="adornment.ShowFocus"
                            AriaLabel="@adornment.AdornmentAriaLabel" />
     }

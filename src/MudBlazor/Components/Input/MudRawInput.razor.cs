@@ -130,6 +130,9 @@ namespace MudBlazor
         public bool AdornmentShowFocus { get; set; } = true;
 
         [Parameter]
+        public bool AdornmentDisabled { get; set; }
+
+        [Parameter]
         public EventCallback<MouseEventArgs> OnAdornmentClick { get; set; }
 
         [Parameter]
@@ -388,6 +391,7 @@ namespace MudBlazor
                         AdornmentAriaLabel = AdornmentAriaLabel,
                         AdornmentIconSize = AdornmentIconSize,
                         ShowFocus = AdornmentShowFocus,
+                        Disabled = AdornmentDisabled,
                         OnAdornmentClick = OnAdornmentClick,
                     }
                 },

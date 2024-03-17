@@ -9,8 +9,9 @@ namespace MudBlazor
         protected string Classname =>
             new CssBuilder("mud-icon-root")
                 .AddClass("mud-icon-default", Color == Color.Default)
+                .AddClass("mud-disabled", Disabled)
                 .AddClass("mud-svg-icon", !string.IsNullOrEmpty(Icon) && Icon.Trim().StartsWith("<"))
-                .AddClass($"mud-{Color.ToDescriptionString()}-text", Color != Color.Default && Color != Color.Inherit)
+                .AddClass($"mud-{Color.ToDescriptionString()}-text", Color != Color.Default && Color != Color.Inherit && !Disabled)
                 .AddClass($"mud-icon-size-{Size.ToDescriptionString()}")
                 .AddClass(Class)
                 .Build();
@@ -42,6 +43,10 @@ namespace MudBlazor
         [Parameter]
         [Category(CategoryTypes.Icon.Appearance)]
         public Color Color { get; set; } = Color.Inherit;
+
+        [Parameter]
+        [Category(CategoryTypes.Icon.Appearance)]
+        public bool Disabled { get; set; }
 
         /// <summary>
         /// The viewbox size of an svg element.

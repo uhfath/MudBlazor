@@ -16,6 +16,7 @@ namespace MudBlazor.Components.Input
     {
         public string Class { get; set; }
         public string Style { get; set; }
+        public bool Disabled { get; set; }
         public string AdornmentIcon { get; set; }
         public string AdornmentText { get; set; }
         public Adornment Adornment { get; set; } = Adornment.None;
