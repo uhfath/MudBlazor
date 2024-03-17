@@ -6,7 +6,7 @@
 <div class="@_containerClass" style="@Style">
     @foreach (var adornment in _startAdornments)
     {
-        <MudInputAdornment Class="@(adornment.Class ?? GetAdornmentClassname(adornment))"
+        <MudInputAdornment Class="@GetAdornmentClassname(adornment)"
                            Style="@GetAdornmentStyle(adornment)"
                            Icon="@adornment.AdornmentIcon"
                            Color="adornment.AdornmentColor"
@@ -109,7 +109,7 @@
 
     @foreach (var adornment in _endAdornments)
     {
-        <MudInputAdornment Class="@(adornment.Class ?? GetAdornmentClassname(adornment))"
+        <MudInputAdornment Class="@GetAdornmentClassname(adornment)"
                            Style="@GetAdornmentStyle(adornment)"
                            Icon="@adornment.AdornmentIcon"
                            Color="adornment.AdornmentColor"

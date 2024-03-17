@@ -115,6 +115,12 @@ namespace MudBlazor
         public Color AdornmentColor { get; set; } = Color.Default;
 
         [Parameter]
+        public string AdornmentClass { get; set; }
+
+        [Parameter]
+        public string AdornmentStyle { get; set; }
+
+        [Parameter]
         public string AdornmentAriaLabel { get; set; } = string.Empty;
 
         [Parameter]
@@ -261,6 +267,7 @@ namespace MudBlazor
                 .AddClass($"mud-text", !string.IsNullOrEmpty(rawAdornment.AdornmentText))
                 .AddClass($"mud-input-root-filled-shrink", Variant == Variant.Filled)
                 .AddClass("align-self-center")
+                .AddClass(rawAdornment.Class)
                 .Build();
 
         public string GetAdornmentStyle(MudRawAdornment rawAdornment) =>
@@ -376,6 +383,8 @@ namespace MudBlazor
                         AdornmentText = AdornmentText,
                         Adornment = Adornment,
                         AdornmentColor = AdornmentColor,
+                        Class = AdornmentClass,
+                        Style = AdornmentStyle,
                         AdornmentAriaLabel = AdornmentAriaLabel,
                         AdornmentIconSize = AdornmentIconSize,
                         ShowFocus = AdornmentShowFocus,
