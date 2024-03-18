@@ -121,6 +121,9 @@ namespace MudBlazor
         public string AdornmentStyle { get; set; }
 
         [Parameter]
+        public string AdornmentTitle { get; set; }
+
+        [Parameter]
         public string AdornmentAriaLabel { get; set; } = string.Empty;
 
         [Parameter]
@@ -388,6 +391,7 @@ namespace MudBlazor
                         AdornmentColor = AdornmentColor,
                         Class = AdornmentClass,
                         Style = AdornmentStyle,
+                        Title = AdornmentTitle,
                         AdornmentAriaLabel = AdornmentAriaLabel,
                         AdornmentIconSize = AdornmentIconSize,
                         ShowFocus = AdornmentShowFocus,

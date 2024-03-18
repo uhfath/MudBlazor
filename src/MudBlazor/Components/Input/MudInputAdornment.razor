@@ -3,7 +3,7 @@
 
 
 
-<div class="@Class" style="@Style">
+<div class="@Class" style="@Style" title=@Title>
     @if (!string.IsNullOrWhiteSpace(Text))
     {
         <MudText Color="@Color" tabindex="-1" Disabled="Disabled" title="@ToolTip" @onclick="AdornmentClick">@Text</MudText>
@@ -26,6 +26,7 @@
     [Parameter] public string Class { get; set; }
     [Parameter] public string Style { get; set; }
     [Parameter] public string Text { get; set; }
+    [Parameter] public string Title { get; set; }
     [Parameter] public string Icon { get; set; }
     [Parameter] public Edge Edge { get; set; }
     [Parameter] public Size Size { get; set; } = Size.Medium;
