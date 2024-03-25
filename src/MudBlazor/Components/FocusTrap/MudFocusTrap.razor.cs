@@ -210,19 +210,19 @@ namespace MudBlazor
                 switch (AutoRestoreFocus)
                 {
                     case AutoRestoreFocus.None:
-                        ClearSavedFocusAsync().AndForget(ignoreExceptions: true);
+                        ClearSavedFocusAsync().AndForget();
                         break;
 
                     case AutoRestoreFocus.Last:
-                        RestoreFocusAsync().AndForget(ignoreExceptions: true);
+                        RestoreFocusAsync().AndForget();
                         break;
 
                     case AutoRestoreFocus.Previous:
-                        RestoreFocusToPreviousAsync(_currentParentMudFocusTrap?._root).AndForget(ignoreExceptions: true);
+                        RestoreFocusToPreviousAsync(_currentParentMudFocusTrap?._root).AndForget();
                         break;
 
                     case AutoRestoreFocus.Next:
-                        RestoreFocusToNextAsync(_currentParentMudFocusTrap?._root).AndForget(ignoreExceptions: true);
+                        RestoreFocusToNextAsync(_currentParentMudFocusTrap?._root).AndForget();
                         break;
                 }
             }

@@ -75,8 +75,12 @@
     <PackageReference Include="Microsoft.Extensions.Localization" Version="8.*" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <SassCompilerEnableWatcher>false</SassCompilerEnableWatcher>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="AspNetCore.SassCompiler" Version="1.71.1.1">
+    <PackageReference Include="AspNetCore.SassCompiler" Version="1.72.0">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="MudBlazor.JSCompiler" Version="1.0.15">

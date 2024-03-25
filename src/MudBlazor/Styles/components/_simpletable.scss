@@ -1,4 +1,4 @@
-
+﻿
 .mud-simple-table {
 
     table {
@@ -79,10 +79,12 @@
 
 .mud-simple-table.mud-table-hover {
     & .mud-table-container table tbody {
-        & tr:hover:not(.mud-table-hover-exclude) {
-            background-color: var(--mud-palette-table-hover);
-        }
+    @media(hover: hover) and (pointer: fine) {
+      & tr:hover:not(.mud-table-hover-exclude) {
+        background-color: var(--mud-palette-table-hover);
+      }
     }
+}
 }
 
 .mud-simple-table.mud-table-bordered {
@@ -109,10 +111,12 @@
 
 .mud-simple-table.mud-table-hover.mud-table-striped {
     & .mud-table-container table tbody {
-        & tr:nth-of-type(odd):nth-of-type(odd):hover:not(.mud-table-hover-exclude) {
-            background-color: var(--mud-palette-table-hover);
-        }
+    @media(hover: hover) and (pointer: fine) {
+      & tr:nth-of-type(odd):nth-of-type(odd):hover:not(.mud-table-hover-exclude) {
+        background-color: var(--mud-palette-table-hover);
+      }
     }
+}
 }
 
 .mud-simple-table.mud-table-sticky-header {
