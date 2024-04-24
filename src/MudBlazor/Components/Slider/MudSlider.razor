@@ -8,10 +8,7 @@
 }
 
 <div class="@Classname" style="@Style">
-	@if (ChildContent != null)
-	{
-		<MudText Typo="Typo.body1">@ChildContent</MudText>
-	}
+    @ChildContent
 	<div class="mud-slider-container">
 		@if (Variant == Variant.Filled)
 		{

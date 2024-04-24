@@ -91,7 +91,7 @@ namespace MudBlazor
                 }
 
                 _value = d;
-                ValueChanged.InvokeAsync(value);
+                ValueChanged.InvokeAsync(value).AndForget();
             }
         }
 
@@ -113,7 +113,7 @@ namespace MudBlazor
                 }
 
                 _value = value;
-                ValueChanged.InvokeAsync(Value);
+                ValueChanged.InvokeAsync(Value).AndForget();
             }
         }
 
@@ -185,11 +185,12 @@ namespace MudBlazor
             var min = Convert.ToDouble(Min);
             var max = Convert.ToDouble(Max);
             var value = Convert.ToDouble(Value);
-            var result = 100.0 * (value - min) / (max - min);
 
-            result = Math.Min(Math.Max(0, result), 100);
-
-            return Math.Round(result, 2);
+            return value == min
+                ? 0
+                : value == max
+                    ? 100
+                    : Math.Round(Math.Min(Math.Max(0, 100.0 * (value - min) / (max - min)), 100), 2);
         }
     }
 }
